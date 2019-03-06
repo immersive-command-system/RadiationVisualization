@@ -28,9 +28,9 @@ namespace ROSBridgeLib
                 this.resolution = node["resolution"].AsFloat;
                 this.slice_pose = new PoseMsg(node["slice_pose"]);
 
-                Debug.Log("\tWidth: " + width + "\n\tHeight: " + height + "\n\tResolution: " + resolution + "\n\tCompressed Size: " + node["cells"].ToString().Length);
+                Debug.Log("\tWidth: " + width + "\n\tHeight: " + height + "\n\tResolution: " + resolution + "\n\tCompressed Size: " + node["cells"].Value.GetType());
 
-                byte[] data = Encoding.UTF8.GetBytes(node["cells"]);
+                byte[] data = Encoding.UTF8.GetBytes(node["cells"].Value);
                 using (MemoryStream rawStream = new MemoryStream(data))
                 {
                     using (MemoryStream memory = new MemoryStream())
@@ -39,6 +39,7 @@ namespace ROSBridgeLib
                         int cnt;
                         using (GZipStream stream = new GZipStream(rawStream, CompressionMode.Decompress))
                         {
+                            Debug.Log("Beginning decompress.");
                             while ((cnt = stream.Read(buffer, 0, buffer.Length)) != 0)
                             {
                                 Debug.Log("Read " + cnt);
@@ -48,7 +49,7 @@ namespace ROSBridgeLib
                         this.cells = memory.ToArray();
                     }
                 }
-                //this.cells = CompressString.StringCompressor.DecompressString(node["cells"]);
+                //this.cells = CompressString.StringCompressor.DecompressString(node["cells"].Value);
                 Debug.Log("Raw Size: " + this.cells.Length);
             }
 
@@ -113,8 +114,8 @@ namespace CompressString
         /// <returns></returns>
         public static byte[] DecompressString(string compressedText)
         {
-            Debug.Log("Decompressing\n" + compressedText.Length);
             byte[] gZipBuffer = Convert.FromBase64String(compressedText);
+            Debug.Log("Decompressing: " + gZipBuffer.Length);
             //byte[] gZipBuffer = Encoding.UTF8.GetBytes(compressedText);
             Debug.Log("Step 0");
             using (var memoryStream = new MemoryStream())
