@@ -1,6 +1,7 @@
 ﻿using SimpleJSON;
 using ROSBridgeLib.std_msgs;
 using UnityEngine;
+using ROSBridgeLib.custom_utils;
 
 namespace ROSBridgeLib
 {
@@ -16,12 +17,8 @@ namespace ROSBridgeLib
             {
                 _header = new HeaderMsg(node["header"]);
                 _info = new MapMetaDataInfoMsg(node["info"]);
-                JSONArray originalData = node["data"].AsArray;
-                _data = new byte[originalData.Count];
-                for (int i = 0; i < _data.Length; i++)
-                {
-                    _data[i] = (byte)originalData[i].AsInt;
-                }
+                //_data = ROSBridgeUtils.JSONArrayToBytes(node["data"].AsArray);
+                _data = ROSBridgeUtils.JSONDataToBytes(node["data"]);
             }
 
             
