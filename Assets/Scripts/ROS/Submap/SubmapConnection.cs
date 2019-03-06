@@ -1,8 +1,11 @@
 ﻿using ROSBridgeLib;
 using UnityEngine;
+using SimpleJSON;
 
 public class SubmapConnection : MonoBehaviour
 {
+
+    public bool isUpdating = false;
 
     private ROSBridgeWebSocketConnection ros = null;
 
@@ -12,7 +15,8 @@ public class SubmapConnection : MonoBehaviour
         // TODO: Understand this line
         Debug.Log("Starting Submap Connection...");
         ros = new ROSBridgeWebSocketConnection("ws://128.32.43.94", 9090);
-        ros.AddSubscriber(typeof(SubmapListSubscriber));
+        //ros.AddSubscriber(typeof(SubmapListSubscriber));
+        ros.AddJSONServiceResponse(typeof(SubmapServiceResponse));
         ros.Connect();
     }
 
@@ -29,5 +33,11 @@ public class SubmapConnection : MonoBehaviour
     void Update()
     {
         ros.Render();
+
+        if (Input.GetKeyUp(KeyCode.Space) && !isUpdating)
+        {
+            isUpdating = true;
+            ros.CallService(SubmapServiceResponse.GetServiceName(), "[0, 0]");
+        }
     }
 }
