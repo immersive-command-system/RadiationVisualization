@@ -15,6 +15,7 @@ pos_data = f["posData"]
 HOST = 'localhost'
 PORT = 50007
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+#s.bind((HOST, PORT))
 s.connect((HOST, PORT))
 offset = pos_data[0][0]
 start = time.time()
