@@ -22,6 +22,9 @@ namespace ROSBridgeLib
             public float resolution;
             public PoseMsg slice_pose;
 
+            private byte[] intensities;
+            private byte[] alphas;
+
             public SubmapTextureMsg(JSONNode node) {
                 this.width = node["width"].AsInt;
                 this.height = node["height"].AsInt;
@@ -30,27 +33,13 @@ namespace ROSBridgeLib
 
                 Debug.Log("\tWidth: " + width + "\n\tHeight: " + height + "\n\tResolution: " + resolution + "\n\tCompressed Size: " + node["cells"].Value.GetType());
 
-                byte[] data = Encoding.UTF8.GetBytes(node["cells"].Value);
-                using (MemoryStream rawStream = new MemoryStream(data))
-                {
-                    using (MemoryStream memory = new MemoryStream())
-                    {
-                        byte[] buffer = new byte[4096];
-                        int cnt;
-                        using (GZipStream stream = new GZipStream(rawStream, CompressionMode.Decompress))
-                        {
-                            Debug.Log("Beginning decompress.");
-                            while ((cnt = stream.Read(buffer, 0, buffer.Length)) != 0)
-                            {
-                                Debug.Log("Read " + cnt);
-                                memory.Write(buffer, 0, cnt);
-                            }
-                        }
-                        this.cells = memory.ToArray();
-                    }
-                }
-                //this.cells = CompressString.StringCompressor.DecompressString(node["cells"].Value);
+                this.cells = DecompressGZipString(node["cells"]);
+
                 Debug.Log("Raw Size: " + this.cells.Length);
+
+                Tuple<byte[], byte[]> unpacked = decode_cells(cells, width, height);
+                this.intensities = unpacked.Item1;
+                this.alphas = unpacked.Item2;
             }
 
             public SubmapTextureMsg(byte[] cells, int width, int height, float resolution, PoseMsg slice_pose) {
@@ -61,18 +50,49 @@ namespace ROSBridgeLib
                 this.slice_pose = slice_pose;
             }
 
-            public static Tuple<byte[,], byte[,]> decode_cells(byte[] cells, int width, int height) {
-                Assert.AreEqual(cells.Length, width * height, string.Format("Bad dimensions. Expected {0}\tgot{1}.", cells.Length, width * height));
-                byte[,] intensity = new byte[height, width];
-                byte[,] alpha = new byte[height, width];
-                int index = 0;
-                for (int i = 0; i < height; i++) {
-                    for (int j = 0; j < width; j++, index = index + 2) {
-                        intensity[i, j] = cells[index];
-                        alpha[i, j] = cells[index + 1];
+            public byte[] GetIntensities()
+            {
+                return this.intensities;
+            }
+
+            public byte[] GetAlphas()
+            {
+                return this.alphas;
+            }
+            
+
+            private static Tuple<byte[], byte[]> decode_cells(byte[] cells, int width, int height) {
+                Assert.AreEqual(cells.Length, width * height * 2, string.Format("Bad dimensions. Expected {0}\tgot {1}.", cells.Length, width * height * 2));
+                byte[] intensity = new byte[height * width];
+                byte[] alpha = new byte[height * width];
+
+                for (int i = 0, j = 0; i < intensity.Length; i++, j += 2)
+                {
+                    intensity[i] = cells[j];
+                    alpha[i] = cells[j + 1];
+                }
+                return new Tuple<byte[], byte[]>(intensity, alpha);
+            }
+
+            public static byte[] DecompressGZipString(string compressed)
+            {
+                byte[] data = System.Convert.FromBase64String(compressed);
+                using (MemoryStream rawStream = new MemoryStream(data))
+                {
+                    using (MemoryStream memory = new MemoryStream())
+                    {
+                        byte[] buffer = new byte[4096];
+                        int cnt;
+                        using (GZipStream stream = new GZipStream(rawStream, CompressionMode.Decompress))
+                        {
+                            while ((cnt = stream.Read(buffer, 0, buffer.Length)) != 0)
+                            {
+                                memory.Write(buffer, 0, cnt);
+                            }
+                        }
+                        return memory.ToArray();
                     }
                 }
-                return new Tuple<byte[,], byte[,]>(intensity, alpha);
             }
         }
     }
