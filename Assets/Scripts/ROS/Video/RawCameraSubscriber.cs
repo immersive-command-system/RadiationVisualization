@@ -8,10 +8,10 @@ using Unity.Collections;
 
 public class RawCameraSubscriber : ROSBridgeSubscriber
 {
-    //byte[] image_data = null;
-    static int num = 0;
+    private static string objectName = "Camera Display";
+    private static int num = 0;
 
-    public static bool verbose = false;
+    public static bool verbose = true;
 
     public new static string GetMessageTopic()
     {
@@ -43,9 +43,9 @@ public class RawCameraSubscriber : ROSBridgeSubscriber
         uint height = image.GetHeight();
         byte[] raw_data = image.GetImage();
 
-        RawImage texObj = GameObject.Find("Raw Display").GetComponent<RawImage>();
+        RawImage texObj = GameObject.Find(objectName).GetComponent<RawImage>();
 
-        Texture2D tex = GameObject.Find("Raw Display").GetComponent<RawImage>().texture as Texture2D;
+        Texture2D tex = GameObject.Find(objectName).GetComponent<RawImage>().texture as Texture2D;
         if (tex == null)
         {
             tex = new Texture2D((int)width / 2, (int)height / 2, TextureFormat.RGBA32, false);
