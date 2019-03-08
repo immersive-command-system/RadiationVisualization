@@ -22,6 +22,8 @@ public class XYZ : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        clientStreams = new List<Tuple<TcpClient, NetworkStream, ConcurrentQueue<string>, StringBuilder>>();
+
         tcpListenerThread = new Thread(new ThreadStart(ListenForIncomingRequests));
         tcpListenerThread.IsBackground = true;
         tcpListenerThread.Start();
@@ -39,14 +41,13 @@ public class XYZ : MonoBehaviour
             tcpListener = new TcpListener(IPAddress.Any, listenPort);
             tcpListener.Start();
             Debug.Log("Listening on port " + listenPort);
-
-            Byte[] bytes = new Byte[1024];
+            
             while (true)
             {
                 TcpClient client = tcpListener.AcceptTcpClient();
                 NetworkStream stream = client.GetStream();
                 ConcurrentQueue<string> messageQueue = new ConcurrentQueue<string>();
-                string leftover = new StringBuilder(); ;
+                StringBuilder leftover = new StringBuilder(); ;
                 clientStreams.Add(new Tuple<TcpClient, NetworkStream, ConcurrentQueue<string>, StringBuilder>(client, stream, messageQueue, leftover));
             }
         }
