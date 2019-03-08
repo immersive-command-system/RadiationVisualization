@@ -17,8 +17,8 @@ namespace ROSBridgeLib
             {
                 _header = new HeaderMsg(node["header"]);
                 _info = new MapMetaDataInfoMsg(node["info"]);
-                //_data = ROSBridgeUtils.JSONArrayToBytes(node["data"].AsArray);
-                _data = ROSBridgeUtils.JSONDataToBytes(node["data"]);
+                _data = ROSBridgeUtils.ParseJSONRawData(node["data"]);
+                
             }
 
             

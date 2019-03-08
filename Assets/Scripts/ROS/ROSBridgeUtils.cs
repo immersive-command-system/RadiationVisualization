@@ -25,6 +25,16 @@ namespace ROSBridgeLib
                 }
                 return data;
             }
+
+            public static byte[] ParseJSONRawData(JSONNode node)
+            {
+                if (node.GetType() == typeof(JSONArray)) {
+                    return JSONArrayToBytes(node.AsArray);
+                } else
+                {
+                    return JSONDataToBytes(node);
+                }
+            }
         }
     }
 }
