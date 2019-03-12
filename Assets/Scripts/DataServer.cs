@@ -11,6 +11,12 @@ using System.Collections.Concurrent;
 
 public class DataServer : MonoBehaviour
 {
+    public interface DataSubscriber
+    {
+        void OnReceiveMessage(float timestamp, string message);
+    }
+
+
     public int[] listenPorts;
 
     private Dictionary<int, TcpListener> listeners = new Dictionary<int, TcpListener>();
@@ -55,7 +61,20 @@ public class DataServer : MonoBehaviour
         }
     }
 
-    void ListenOnPort(int port)
+    private void OnApplicationQuit()
+    {
+        foreach (KeyValuePair<int, TcpListener> curr in listeners)
+        {
+            curr.Value.Stop();
+        }
+        foreach (Tuple<TcpClient, NetworkStream, byte[], ConcurrentQueue<string>, StringBuilder> curr in clientStreams)
+        {
+            curr.Item1.Close();
+        }
+        parseThread.Abort();
+    }
+
+    private void ListenOnPort(int port)
     {
         if (port <= 0)
         {
@@ -162,23 +181,5 @@ public class DataServer : MonoBehaviour
                 }
             }
         }
-    }
-
-    private void OnApplicationQuit()
-    {
-        foreach (KeyValuePair<int, TcpListener> curr in listeners)
-        {
-            curr.Value.Stop();
-        }
-        foreach (Tuple<TcpClient, NetworkStream, byte[], ConcurrentQueue<string>, StringBuilder> curr in clientStreams)
-        {
-            curr.Item1.Close();
-        }
-        parseThread.Abort();
-    }
-
-    public interface DataSubscriber
-    {
-        void OnReceiveMessage(float timestamp, string message);
     }
 }
