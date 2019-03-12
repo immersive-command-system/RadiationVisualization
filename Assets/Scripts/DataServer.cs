@@ -16,7 +16,6 @@ public class DataServer : MonoBehaviour
         void OnReceiveMessage(float timestamp, string message);
     }
 
-
     public int[] listenPorts;
 
     private Dictionary<int, TcpListener> listeners = new Dictionary<int, TcpListener>();
