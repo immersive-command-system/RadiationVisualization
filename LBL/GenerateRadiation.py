@@ -21,8 +21,10 @@ start = time.time()
 for i in range(len(rad_data)):
 	for j in range(len(rad_data[0])):
 		for k in range(len(rad_data[0][0])):
-			rad = "Radiation: " + str(i) + ", " + str(j) + ", " + str(k) + ", " + str(rad_data[i][j][k])
+			# sending message in format [label]:[timestamp]:data
+			rad = "Radiation:" + str(0) + ":" + str(i) + ", " + str(j) + ", " + str(k) + ", " + str(rad_data[i][j][k]) + "\n"
 			print(rad)
-			str_to_send = json.dumps(rad)
-			s.send(str_to_send.encode())
+			# str_to_send = json.dumps(rad)
+			s.send(rad.encode())
 s.close()
+f.close()
