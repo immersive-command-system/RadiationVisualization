@@ -23,8 +23,10 @@ start = time.time()
 for i in range(len(pos_data)):
     while(time.time() - start < pos_data[i][0] - offset):
         time.sleep(0.1)
-    xyz = [pos_data[i][1], pos_data[i][2], pos_data[i][3]]
-    print(str(xyz[0]) + ",", str(xyz[1]) + ",", str(xyz[2]))
-    str_to_send = json.dumps(str(xyz[0]) + ", " + str(xyz[1]) + ", " + str(xyz[2]))
-    s.send(str_to_send.encode())
+	# sending message in format [label]:[timestamp]:data
+    xyz = "Drone:" + str(pos_data[i][0]) + ":" + str(xyz[0]) + ",", str(xyz[1]) + ",", str(xyz[2]) + "\n"
+    print(xyz)
+    # str_to_send = json.dumps(xyz)
+    s.send(xyz.encode())
 s.close()
+f.close()
