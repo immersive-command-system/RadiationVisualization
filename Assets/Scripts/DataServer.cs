@@ -57,6 +57,7 @@ public class DataServer : MonoBehaviour
         }
         if (!currSubscribers.Contains(sb))
         {
+            Debug.Log("Registering listener for: " + messageType);
             currSubscribers.Add(sb);
         }
     }
@@ -136,7 +137,6 @@ public class DataServer : MonoBehaviour
                 StringBuilder leftover = clientStreams[i].Item5;
                 if (messageQueue.TryDequeue(out fragment))
                 {
-                    Debug.Log(fragment);
                     string whole = leftover.Append(fragment).ToString();
                     if (whole.Length > 0)
                     {
