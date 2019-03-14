@@ -7,6 +7,7 @@ public class DronePositionSubscriber : MonoBehaviour, DataServer.DataSubscriber
 
     public DataServer server;
     public bool renderTrail = true;
+    public bool flipYZ = false;
 
     private Vector3 newPosition;
     private bool positionDidUpdate = false;
@@ -37,7 +38,7 @@ public class DronePositionSubscriber : MonoBehaviour, DataServer.DataSubscriber
         if (parts.Length >= 3 && float.TryParse(parts[0], out x) && 
             float.TryParse(parts[1], out y) && float.TryParse(parts[2], out z))
         {
-            newPosition = new Vector3(x, y, z);
+            newPosition = (flipYZ) ? new Vector3(x, z, y) : new Vector3(x, y, z);
             positionDidUpdate = true;
         }
     }
