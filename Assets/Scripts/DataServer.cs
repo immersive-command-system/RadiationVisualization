@@ -18,6 +18,8 @@ public class DataServer : MonoBehaviour
 
     public int[] listenPorts;
 
+    public int line_count;
+
     private Dictionary<int, TcpListener> listeners = new Dictionary<int, TcpListener>();
     private List<Tuple<TcpClient, NetworkStream, byte[], ConcurrentQueue<string>, StringBuilder>> clientStreams;
 
@@ -99,7 +101,10 @@ public class DataServer : MonoBehaviour
         byte[] bytes = new byte[4096];
         Tuple<TcpClient, NetworkStream, byte[], ConcurrentQueue<string>, StringBuilder> state = 
             new Tuple<TcpClient, NetworkStream, byte[], ConcurrentQueue<string>, StringBuilder>(client, stream, bytes, messageQueue, leftover);
-        clientStreams.Add(state);
+        lock (clientStreams)
+        {
+            clientStreams.Add(state);
+        }
         
         stream.BeginRead(bytes, 0, bytes.Length, new AsyncCallback(ReadMessages), state);
         tcpListener.BeginAcceptTcpClient(new AsyncCallback(ClientConnectCallback), tcpListener);
@@ -130,10 +135,22 @@ public class DataServer : MonoBehaviour
         string fragment;
         while (true)
         {
-            for (int i = 0; i < clientStreams.Count; i++)
+            int count;
+            lock (clientStreams)
             {
-                ConcurrentQueue<string> messageQueue = clientStreams[i].Item4;
-                StringBuilder leftover = clientStreams[i].Item5;
+                count = clientStreams.Count;
+            }
+            
+            for (int i = 0; i < count; i++)
+            {
+                Tuple<TcpClient, NetworkStream, byte[], ConcurrentQueue<string>, StringBuilder> curr;
+                lock (clientStreams)
+                {
+                    curr = clientStreams[i];
+                }
+                
+                ConcurrentQueue<string> messageQueue = curr.Item4;
+                StringBuilder leftover = curr.Item5;
                 if (messageQueue.TryDequeue(out fragment))
                 {
                     string whole = leftover.Append(fragment).ToString();
@@ -157,6 +174,7 @@ public class DataServer : MonoBehaviour
                                 //Debug.Log("[" + timestamp + "]\t" + parts[0] + ": " + parts[2]);
                             }
                         }
+                        line_count += end;
                     }
                 }
             }
