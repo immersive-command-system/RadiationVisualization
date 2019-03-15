@@ -19,8 +19,8 @@ public class CloudDataSubscriber : MonoBehaviour, DataServer.DataSubscriber
         if (cloud_viewer == null)
         {
             cloud_viewer = gameObject.AddComponent<ParticleSystem>();
-            InitializeParticleSystem(cloud_viewer, GetComponent<ParticleSystemRenderer>(), initialParticleCount);
         }
+        InitializeParticleSystem(cloud_viewer, GetComponent<ParticleSystemRenderer>(), initialParticleCount);
 
         particles = new ParticleSystem.Particle[initialParticleCount];
 
@@ -76,12 +76,20 @@ public class CloudDataSubscriber : MonoBehaviour, DataServer.DataSubscriber
         main.loop = false;
         main.playOnAwake = false;
         main.maxParticles = max_particles;
-        main.startColor = new ParticleSystem.MinMaxGradient(new Color(1.0f, 1.0f, 1.0f, 1.0f));
+        main.startColor = new ParticleSystem.MinMaxGradient(new Color(1.0f, 1.0f, 1.0f, 0.0f));
 
         renderer.sortMode = ParticleSystemSortMode.Distance;
         renderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
         renderer.receiveShadows = false;
-        renderer.material = new Material(Shader.Find("Diffuse"));
+
+        Material particleMaterial = renderer.material;
+        if (particleMaterial == null)
+        {
+            new Material(Shader.Find("Standard"));
+            renderer.material = particleMaterial;
+        }
+        particleMaterial.SetColor("_Color", new Color(1.0f, 1.0f, 1.0f, 0.0f));
+        particleMaterial.SetColor("_EmissionColor", new Color(0.8f, 0.8f, 0.8f, 1.0f));
 
         ParticleSystem.EmissionModule em = ps.emission;
         em.enabled = false;
