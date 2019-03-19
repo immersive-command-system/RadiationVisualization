@@ -15,12 +15,15 @@ import json
 # This file sends pointcloud data over a server as x,y,z,intensity.
 # x, y, z is multiplied by pixelsize.
 # Change the HOST and PORT variables accordingly.
+
+HOST = '192.168.0.198'
+PORT = 50008
+
 f = h5py.File('RunData.h5', 'r')
 x = f.keys()
 rad_data = f["im3D"]
 lims = f["recon_lims"]
-HOST = '192.168.0.198'
-PORT = 50008
+
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.connect((HOST, PORT))
 start = time.time()

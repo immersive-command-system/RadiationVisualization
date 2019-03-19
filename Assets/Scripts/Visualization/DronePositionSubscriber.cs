@@ -18,10 +18,10 @@ public class DronePositionSubscriber : MonoBehaviour, DataServer.DataSubscriber
         TrailRenderer trail = GetComponent<TrailRenderer>();
         if (trail == null && renderTrail == true)
         {
-            trail = gameObject.AddComponent<TrailRenderer>();
-            trail.widthMultiplier = 0.5f;
+            trail = gameObject.AddComponent<TrailRenderer>() as TrailRenderer;
+            trail.widthMultiplier = 0.25f;
             trail.time = 10000;
-            trail.material.color = new Color(1.0f, 1.0f, 1.0f, 0.5f);
+            trail.material.color = new Color(0.0f, 1.0f, 1.0f, 0.5f);
         } else if (trail != null && renderTrail == false)
         {
             Destroy(trail);

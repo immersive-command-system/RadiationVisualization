@@ -12,11 +12,13 @@ import time
 import socket
 import json
 
+HOST = '192.168.0.198'
+PORT = 50007
+
 f = h5py.File('RunData.h5', 'r')
 x = f.keys()
 cld_data = f["cld"]
-HOST = '192.168.0.198'
-PORT = 50007
+
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.connect((HOST, PORT))
 start = time.time()
