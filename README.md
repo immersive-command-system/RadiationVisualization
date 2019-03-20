@@ -19,5 +19,7 @@ Change the HOST and PORT accordingly in the scripts to be the same PORT number f
 
 ### Start
 Press play on Unity, and then run the scripts on a command prompt with the commands,
+
 '''python GeneratePosData.py'''
+
 '''python GenerateCloud.py'''
