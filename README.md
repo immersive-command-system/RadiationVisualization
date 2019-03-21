@@ -3,15 +3,20 @@
 # Radiation Visualization
 ## How to Clone This Repository
 
-In the terminal, run: 
+In the terminal, run:
+
 `git clone` `--``recurse-submodules https://github.com/jeshlee121/ISAACS``-``RadiationVisualization`
 
-**In the case of** [****](https://help.github.com/en/articles/error-permission-denied-publickey)`[**Error: Permission denied (publickey)**](https://help.github.com/en/articles/error-permission-denied-publickey)`
+**In the case of** [****](https://help.github.com/en/articles/error-permission-denied-publickey)**"**[**Error: Permission denied (publickey)**](https://help.github.com/en/articles/error-permission-denied-publickey)**”**
+
 **For Windows:** 
+
 [First make sure you have a key that is being used](https://help.github.com/en/articles/error-permission-denied-publickey#make-sure-you-have-a-key-that-is-being-used).
 
-**If** `**ssh-add -l**` **or** `**ssh-add -l -E md5**` **returns "**[**The agent has no identities**](https://stackoverflow.com/questions/26505980/github-permission-denied-ssh-add-agent-has-no-identities)**.”:**
+If `ssh-add -l` or `ssh-add -l -E md5` returns "[The agent has no identities](https://stackoverflow.com/questions/26505980/github-permission-denied-ssh-add-agent-has-no-identities).”:
+
 Use the command `ssh-keygen -t rsa` to generate the keys and `ssh-add /path/to/my-ssh-folder/id_rsa`  (e.g. path: `~/.ssh/id_rsa` ) to add them. Then try `ssh-add` again. 
+
 
 Now follow this [link](https://help.github.com/en/articles/adding-a-new-ssh-key-to-your-github-account) to add a new SSH key to your GitHub account. 
 Make sure to delete the old repo you had downloaded, and try cloning again.
@@ -46,11 +51,14 @@ Change the HOST and PORT accordingly in the scripts:
 If you are trying to send it to your own computer, set HOST to be
 
   `HOST =` `'``LOCALHOST``'`
-  
 
+Change the HOST and PORT flags accordingly in the scripts to be the same PORT number from the Unity side and get the IP address from your terminal with `ipconfig`. If the flags are not provided, the default values for HOST and PORT are LOCALHOST and 50007 respectively.
 **Start Playing**
 Press play on Unity, and then run the scripts in the folder ‘LBL’ on a command prompt with the commands,
-  `python GeneratePosData.py`
+  
+
+    python3 GeneratePosData.py --HOST <host_address> --PORT <port_number>
+
   `python GenerateCloud.py`
   `python GenerateRadiation.py`.
   
