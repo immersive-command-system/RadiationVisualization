@@ -1,25 +1,58 @@
+# Radiation Visualization README
+
 # Radiation Visualization
+## How to Clone This Repository
 
-## How to use the scripts
+In the terminal, run: 
+`git clone` `--``recurse-submodules https://github.com/jeshlee121/ISAACS``-``RadiationVisualization`
 
-### Unity side
-Create an empty GameObject and attach '''Scripts/DataServer.cs''' (Call this GameObject 'DataServer').
+**In the case of** [****](https://help.github.com/en/articles/error-permission-denied-publickey)`[**Error: Permission denied (publickey)**](https://help.github.com/en/articles/error-permission-denied-publickey)`
+**For Windows:** 
+[First make sure you have a key that is being used](https://help.github.com/en/articles/error-permission-denied-publickey#make-sure-you-have-a-key-that-is-being-used).
 
-Create another empty GameObject and attach '''Scripts/Visualization/CloudDataSubscriber.cs''' and drag the earlier 'DataServer' GameObject onto the 'Server' field (Call this PointCloud).
+**If** `**ssh-add -l**` **or** `**ssh-add -l -E md5**` **returns "**[**The agent has no identities**](https://stackoverflow.com/questions/26505980/github-permission-denied-ssh-add-agent-has-no-identities)**.”:**
+Use the command `ssh-keygen -t rsa` to generate the keys and `ssh-add /path/to/my-ssh-folder/id_rsa`  (e.g. path: `~/.ssh/id_rsa` ) to add them. Then try `ssh-add` again. 
 
-Create one of the 'GameObjects/drone_model' and attach '''Scripts/Visualization/DronePositionSubscriber.cs''' and drag the same 'DataServer' GameObject onto the 'Server' field (Call this Drone).
-
-For both of the PointCloud and Drone object, check the "Flip YZ" on the script tab.
-
-For the DataServer object, go to the "Listen Ports" and change the size to 3 and for each element, choose an arbitrary PORT number (e.g. 50007, 50008, 50009).
-
-### Python scripts
-Change the HOST and PORT accordingly in the scripts to be the same PORT number from the Unity side and get the IP address from your terminal with 'ipconfig'.
+Now follow this [link](https://help.github.com/en/articles/adding-a-new-ssh-key-to-your-github-account) to add a new SSH key to your GitHub account. 
+Make sure to delete the old repo you had downloaded, and try cloning again.
 
 
-### Start
-Press play on Unity, and then run the scripts on a command prompt with the commands,
+## How to Use the Python Scripts in ‘LBL’ Folder (HD5 Data Over Network)
 
-'''python GeneratePosData.py'''
+**Unity Side -** An example of this has been created and saved in “Scenes/Visualization.unity”.
 
-'''python GenerateCloud.py'''
+
+- **DataServer**: Create an empty GameObject and attach `Scripts/DataServer.cs`.
+
+
+- **PointCloud**: Create another empty GameObject and attach `Scripts/Visualization/CloudDataSubscriber.cs` and drag the earlier 'DataServer' GameObject onto the 'Server' field.
+
+
+- **Drone**: Create one of the 'GameObjects/drone_model' from the Assets folder and attach `Scripts/Visualization/DronePositionSubscriber.cs` and drag the same 'DataServer' GameObject onto the 'Server' field.
+
+
+- **Radiation**: Create another empty GameObject and attach `Scripts/Visualization/DronePositionSubscriber.cs` and drag the same ‘DataServer’ GameObject onto the ‘Server’ field.
+
+For both of the PointCloud and Drone object, check the "**Flip YZ**" on the script tab.
+
+For the DataServer object, go to the "**Listen Ports**" and change the size to 3 and for each element, choose an arbitrary PORT number (e.g. 50007, 50008, 50009).
+
+**Python scripts**
+Change the HOST and PORT accordingly in the scripts:
+
+- Get the IP address ****from your terminal with the command `ipconfig` and replace the **HOST** variable with this IP address in the field `Wireless LAN adapter Wi-Fi: IPv4 Address:` . 
+- Make sure the PORT numbers are the same as the ones that you wrote on the **DataServer** object.
+
+If you are trying to send it to your own computer, set HOST to be
+
+  `HOST =` `'``LOCALHOST``'`
+  
+
+**Start Playing**
+Press play on Unity, and then run the scripts in the folder ‘LBL’ on a command prompt with the commands,
+  `python GeneratePosData.py`
+  `python GenerateCloud.py`
+  `python GenerateRadiation.py`.
+  
+Go back to Unity, and you’ll see the visualizations start.
+
