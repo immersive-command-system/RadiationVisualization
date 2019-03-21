@@ -16,7 +16,7 @@ import json
 # x, y, z is multiplied by pixelsize.
 # Change the HOST and PORT variables accordingly.
 
-HOST = '192.168.0.198'
+HOST = 'LOCALHOST'
 PORT = 50008
 
 print("Reading in data...")

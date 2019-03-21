@@ -12,17 +12,20 @@ import time
 import socket
 import json
 
-HOST = '192.168.0.198'
+HOST = 'LOCALHOST'
 PORT = 50007
 
+print("Reading in data...")
 f = h5py.File('RunData.h5', 'r')
 x = f.keys()
 cld_data = f["cld"]
 
+print("Connecting...")
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.connect((HOST, PORT))
 start = time.time()
 
+print("Sending")
 for i in range(len(cld_data)):
 	# sending message in format [label]:[timestamp]:x,y,z,rgb\n
 	cloud = "Cloud:" + str(0) + ":" + str(cld_data[i][0]) + ", " + str(cld_data[i][1]) + ", " + str(cld_data[i][2]) + ", " + str(cld_data[i][3]) + "\n"

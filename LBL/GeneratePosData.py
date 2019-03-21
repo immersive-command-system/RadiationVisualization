@@ -12,19 +12,22 @@ import time
 import socket
 import json
 
-HOST = '192.168.0.198'
+HOST = 'LOCALHOST'
 PORT = 50008
 
+print("Reading in data...")
 f = h5py.File('RunData.h5', 'r')
 x = f.keys()
 pos_data = f["posData"]
 
+print("Connecting...")
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 #s.bind((HOST, PORT))
 s.connect((HOST, PORT))
 offset = pos_data[0][0]
 start = time.time()
 
+print("Sending")
 for i in range(len(pos_data)):
     while(time.time() - start < pos_data[i][0] - offset):
         time.sleep(0.1)
