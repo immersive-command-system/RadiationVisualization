@@ -11,26 +11,39 @@ import struct
 import time
 import socket
 import json
+import argparse
 
-HOST = 'LOCALHOST'
-PORT = 50007
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--HOST", help="Host to stream the point cloud from")
+    parser.add_argument("--PORT", help="Port to stream the point cloud from")
+    args = parser.parse_args()
 
-print("Reading in data...")
-f = h5py.File('RunData.h5', 'r')
-x = f.keys()
-cld_data = f["cld"]
+    HOST = args.HOST
+    PORT = args.PORT
 
-print("Connecting...")
-s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-s.connect((HOST, PORT))
-start = time.time()
+    if args.HOST == None:
+        HOST = 'LOCALHOST'
 
-print("Sending")
-for i in range(len(cld_data)):
-	# sending message in format [label]:[timestamp]:x,y,z,rgb\n
-	cloud = "Cloud:" + str(0) + ":" + str(cld_data[i][0]) + ", " + str(cld_data[i][1]) + ", " + str(cld_data[i][2]) + ", " + str(cld_data[i][3]) + "\n"
-	print("Num: " + str(i) + "- " + cloud)
-	# str_to_send = json.dumps(cloud)
-	s.send(cloud.encode())
-s.close()
-f.close()
+    if args.PORT == None:
+        PORT = 50009
+
+    print("Reading in data...")
+    f = h5py.File('RunData.h5', 'r')
+    x = f.keys()
+    cld_data = f["cld"]
+
+    print("Connecting...")
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    s.connect((HOST, PORT))
+    start = time.time()
+
+    print("Sending")
+    for i in range(len(cld_data)):
+        # sending message in format [label]:[timestamp]:x,y,z,rgb\n
+        cloud = "Cloud:" + str(0) + ":" + str(cld_data[i][0]) + ", " + str(cld_data[i][1]) + ", " + str(cld_data[i][2]) + ", " + str(cld_data[i][3]) + "\n"
+        print("Num: " + str(i) + "- " + cloud)
+        # str_to_send = json.dumps(cloud)
+        s.send(cloud.encode())
+    s.close()
+    f.close()
