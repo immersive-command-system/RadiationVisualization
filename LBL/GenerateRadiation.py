@@ -19,16 +19,20 @@ import json
 HOST = '192.168.0.198'
 PORT = 50008
 
+print("Reading in data...")
 f = h5py.File('RunData.h5', 'r')
 x = f.keys()
 rad_data = f["im3D"]
 lims = f["recon_lims"]
 
+print("Connecting...")
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.connect((HOST, PORT))
+print("Sending")
 start = time.time()
 lower_lims = lims[0]
 pix_size = f["recon_pixSize"][0]
+s.send("{}".format(pix_size).encode())
 for i in range(len(rad_data)):
 	for j in range(len(rad_data[0])):
 		for k in range(len(rad_data[0][0])):
