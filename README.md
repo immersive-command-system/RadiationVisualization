@@ -5,7 +5,7 @@
 
 In the terminal, run:
 
-`git clone` `--``recurse-submodules https://github.com/jeshlee121/ISAACS-RadiationVisualization`
+`git clone-- recurse-submodules https://github.com/jeshlee121/ISAACS-RadiationVisualization`
 
 **In the case of** **"**[**Error: Permission denied (publickey)**](https://help.github.com/en/articles/error-permission-denied-publickey)**”**
 
