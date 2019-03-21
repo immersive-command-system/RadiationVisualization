@@ -68,6 +68,11 @@ public class PointCloudVisualizer2 : MonoBehaviour
         hasChanged = true;
     }
 
+    protected void OnParticlesUpdated()
+    {
+        hasChanged = true;
+    }
+
     protected void SetEmissionColor(Color c)
     {
         Material particleMaterial = cloud_renderer.material;
@@ -92,7 +97,7 @@ public class PointCloudVisualizer2 : MonoBehaviour
 
         // Make it transparent
         particleMaterial.SetInt("_SrcBlend", (int)UnityEngine.Rendering.BlendMode.SrcAlpha);
-        particleMaterial.SetInt("_DstBlend", (int)UnityEngine.Rendering.BlendMode.DstAlpha);
+        particleMaterial.SetInt("_DstBlend", (int)UnityEngine.Rendering.BlendMode.OneMinusSrcAlpha);
         particleMaterial.SetInt("_ZWrite", 0);
         particleMaterial.DisableKeyword("_ALPHATEST_ON");
         particleMaterial.DisableKeyword("_ALPHABLEND_ON");
