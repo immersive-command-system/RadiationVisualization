@@ -34,7 +34,6 @@ for i in range(len(pos_data)):
 	# sending message in format [label]:[timestamp]:data\n
     xyz = "Drone:" + str(pos_data[i][0]) + ":" + str(pos_data[i][1]) + "," + str(pos_data[i][2]) + "," + str(pos_data[i][3]) + "\n"
     print("Num: "  + str(i) + ": "+ xyz)
-    # str_to_send = json.dumps(xyz)
     s.send(xyz.encode())
 s.close()
 f.close()

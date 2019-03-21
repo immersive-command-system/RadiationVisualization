@@ -30,7 +30,6 @@ for i in range(len(cld_data)):
 	# sending message in format [label]:[timestamp]:x,y,z,rgb\n
 	cloud = "Cloud:" + str(0) + ":" + str(cld_data[i][0]) + ", " + str(cld_data[i][1]) + ", " + str(cld_data[i][2]) + ", " + str(cld_data[i][3]) + "\n"
 	print("Num: " + str(i) + "- " + cloud)
-	# str_to_send = json.dumps(cloud)
 	s.send(cloud.encode())
 s.close()
 f.close()
