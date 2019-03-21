@@ -11,7 +11,6 @@ import struct
 import time
 import socket
 import json
-
 import argparse
 
 if __name__ == "__main__":
@@ -27,7 +26,7 @@ if __name__ == "__main__":
         HOST = 'LOCALHOST'
 
     if args.PORT == None:
-        PORT = 50007
+        PORT = 50009
 
     print("Reading in data...")
     f = h5py.File('RunData.h5', 'r')

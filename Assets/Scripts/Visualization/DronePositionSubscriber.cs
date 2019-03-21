@@ -2,12 +2,20 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/* 
+ * This file takes care of parsing messages about the Drone position that are received by the DataServer.
+ * The data currently comes in a format of "x, y, z".
+ */
 public class DronePositionSubscriber : MonoBehaviour, DataServer.DataSubscriber
 {
-
+    // Attach DataServer object. If nonexistant, create an empty GameObject and attach the script `DataServer.cs`.
     public DataServer server;
-    public bool renderTrail = true;
+
+    // Setting this to true will give a horizontal view of the data - This should be equal throughout all subscribers.
     public bool flipYZ = false;
+
+    // Set to true to see the trail of the drone.
+    public bool renderTrail = true;
 
     private Vector3 newPosition;
     private bool positionDidUpdate = false;
@@ -18,6 +26,7 @@ public class DronePositionSubscriber : MonoBehaviour, DataServer.DataSubscriber
         TrailRenderer trail = GetComponent<TrailRenderer>();
         if (trail == null && renderTrail == true)
         {
+            // Deals with visualization of drone trail
             trail = gameObject.AddComponent<TrailRenderer>() as TrailRenderer;
             trail.widthMultiplier = 0.25f;
             trail.time = 10000;
@@ -27,9 +36,11 @@ public class DronePositionSubscriber : MonoBehaviour, DataServer.DataSubscriber
             Destroy(trail);
         }
 
+        // Called to attach as a subscriber to DataServer.
         server.RegisterDataSubscriber("Drone", this);
     }
 
+    /* Parses and checks if message is corrupted. Stores data ready for visualization. */
     public void OnReceiveMessage(float timestamp, string message)
     {
         Debug.Log("Drone Received: " + message);
@@ -43,7 +54,7 @@ public class DronePositionSubscriber : MonoBehaviour, DataServer.DataSubscriber
         }
     }
 
-    // Update is called once per frame
+    /* Update is called once per frame. If we see that we received a new xyz point for the data, we change the position. */
     void Update()
     {
         if (positionDidUpdate)

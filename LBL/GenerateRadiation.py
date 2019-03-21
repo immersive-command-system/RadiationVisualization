@@ -10,13 +10,12 @@ import struct
 import time
 import socket
 import json
+import argparse
 
 # This reads from HD5 files and sends over network.
 # This file sends pointcloud data over a server as x,y,z,intensity.
 # x, y, z is multiplied by pixelsize.
 # Change the HOST and PORT variables accordingly.
-
-import argparse
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
