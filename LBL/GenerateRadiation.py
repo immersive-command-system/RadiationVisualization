@@ -25,13 +25,13 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     HOST = args.HOST
-    PORT = args.PORT
+    PORT = int(args.PORT)
 
     if args.HOST == None:
         HOST = 'LOCALHOST'
 
     if args.PORT == None:
-        PORT = 50007
+        PORT = 50009
 
     print("Reading in data...")
     f = h5py.File('RunData.h5', 'r')
