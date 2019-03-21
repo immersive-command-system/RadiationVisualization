@@ -24,13 +24,13 @@ if __name__ == "__main__":
     parser.add_argument("--PORT", help="Port to stream the radiation data from")
     args = parser.parse_args()
 
-    HOST = args.host
-    PORT = args.port
+    HOST = args.HOST
+    PORT = args.PORT
 
-    if args.host == None:
+    if args.HOST == None:
         HOST = 'LOCALHOST'
 
-    if args.port == None:
+    if args.PORT == None:
         PORT = 50007
 
     print("Reading in data...")
