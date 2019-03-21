@@ -20,7 +20,7 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     HOST = args.HOST
-    PORT = args.PORT
+    PORT = int(args.PORT)
 
     if args.HOST == None:
         HOST = 'LOCALHOST'
