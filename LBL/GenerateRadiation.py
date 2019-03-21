@@ -24,13 +24,20 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     HOST = args.HOST
-    PORT = int(args.PORT)
-
+    PORT = args.PORT
+    
     if args.HOST == None:
         HOST = 'LOCALHOST'
 
     if args.PORT == None:
         PORT = 50009
+		
+    try:
+	    PORT = int(PORT)
+    except ValueError:
+        print("PORT variable must be an integer")
+        print("Exitting now...")
+        exit()
 
     print("Reading in data...")
     f = h5py.File('RunData.h5', 'r')
