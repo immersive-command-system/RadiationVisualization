@@ -1,5 +1,3 @@
-# Radiation Visualization README
-
 # Radiation Visualization
 ## How to Clone This Repository
 
