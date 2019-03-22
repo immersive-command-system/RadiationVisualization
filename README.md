@@ -1,13 +1,11 @@
-# Radiation Visualization README
-
 # Radiation Visualization
 ## How to Clone This Repository
 
 In the terminal, run:
 
-`git clone` `--``recurse-submodules https://github.com/jeshlee121/ISAACS``-``RadiationVisualization`
+`git clone --recurse-submodules https://github.com/jeshlee121/ISAACS-RadiationVisualization`
 
-**In the case of** [****](https://help.github.com/en/articles/error-permission-denied-publickey)**"**[**Error: Permission denied (publickey)**](https://help.github.com/en/articles/error-permission-denied-publickey)**”**
+**In the case of** **“**[**Error: Permission denied (publickey)**](https://help.github.com/en/articles/error-permission-denied-publickey)**”**
 
 **For Windows:** 
 
@@ -45,22 +43,18 @@ For the DataServer object, go to the "**Listen Ports**" and change the size to 3
 **Python scripts**
 Change the HOST and PORT accordingly in the scripts:
 
-- Get the IP address ****from your terminal with the command `ipconfig` and replace the **HOST** variable with this IP address in the field `Wireless LAN adapter Wi-Fi: IPv4 Address:` . 
-- Make sure the PORT numbers are the same as the ones that you wrote on the **DataServer** object.
+- **host_address**: Get the IP address from your terminal with the command `ipconfig` and replace the **HOST** variable with this IP address in the field `Wireless LAN adapter Wi-Fi: IPv4 Address:` . If you are trying to send it to your own computer, you can use `HOST =LOCALHOST`.
+- **port_number**: Make sure the PORT numbers are the same as the ones that you wrote on the **DataServer** object.
 
-If you are trying to send it to your own computer, set HOST to be
-
-  `HOST =` `'``LOCALHOST``'`
-
-Change the HOST and PORT flags accordingly in the scripts to be the same PORT number from the Unity side and get the IP address from your terminal with `ipconfig`. If the flags are not provided, the default values for HOST and PORT are LOCALHOST and 50007 respectively.
-**Start Playing**
 Press play on Unity, and then run the scripts in the folder ‘LBL’ on a command prompt with the commands,
   
 
-    python3 GeneratePosData.py --HOST <host_address> --PORT <port_number>
+    python GeneratePosData.py --HOST <host_address> --PORT <port_number>
+    python GenerateCloud.py --HOST <host_address> --PORT <port_number>
+    python GenerateRadiation.py --HOST <host_address> --PORT <port_number>
 
-  `python GenerateCloud.py`
-  `python GenerateRadiation.py`.
+  
+If the flags for HOST and PORT are not provided, the default values for HOST and PORT are `LOCALHOST` and `50007`/`50008`/`50009` respectively. 
   
 Go back to Unity, and you’ll see the visualizations start.
 

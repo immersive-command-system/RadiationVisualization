@@ -25,12 +25,19 @@ if __name__ == "__main__":
 
     HOST = args.HOST
     PORT = args.PORT
-
+    
     if args.HOST == None:
         HOST = 'LOCALHOST'
 
     if args.PORT == None:
-        PORT = 50008
+        PORT = 50009
+		
+    try:
+	    PORT = int(PORT)
+    except ValueError:
+        print("PORT variable must be an integer")
+        print("Exitting now...")
+        exit()
 
     print("Reading in data...")
     f = h5py.File('RunData.h5', 'r')
@@ -55,9 +62,7 @@ if __name__ == "__main__":
                     y = j * pix_size + lower_lims[1]
                     z = k * pix_size + lower_lims[2]
                     rad = "Radiation:{}:{},{},{},{}\n".format(0,x,y,z,rad_data[i][j][k])
-                    # rad = "Radiation:" + str(0) + ":" + str(i + lower_lims[0]) + ", " + str(j + lower_lims[1]) + ", " + str(k + lower_lims[2]) + ", " + str(rad_data[i][j][k]) + "\n"
                     print(rad)
-                    # str_to_send = json.dumps(rad)
                     s.send(rad.encode())
     s.close()
     f.close()
