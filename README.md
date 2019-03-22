@@ -45,7 +45,7 @@ For the DataServer object, go to the "**Listen Ports**" and change the size to 3
 **Python scripts**
 Change the HOST and PORT accordingly in the scripts:
 
-- **host_address**: Get the IP address from your terminal with the command `ipconfig` and replace the **HOST** variable with this IP address in the field `Wireless LAN adapter Wi-Fi: IPv4 Address:` . If you are trying to send it to your own computer, you can use `HOST =LOCALHOS``T`.
+- **host_address**: Get the IP address from your terminal with the command `ipconfig` and replace the **HOST** variable with this IP address in the field `Wireless LAN adapter Wi-Fi: IPv4 Address:` . If you are trying to send it to your own computer, you can use `HOST =LOCALHOST`.
 - **port_number**: Make sure the PORT numbers are the same as the ones that you wrote on the **DataServer** object.
 
 Press play on Unity, and then run the scripts in the folder ‘LBL’ on a command prompt with the commands,
@@ -56,7 +56,7 @@ Press play on Unity, and then run the scripts in the folder ‘LBL’ on a comma
     python GenerateRadiation.py --HOST <host_address> --PORT <port_number>
 
   
-If the flags for HOST and PORT are not provided, the default values for HOST and PORT are `LOCALHOST` and `50007`/`50008` /`50009` respectively. 
+If the flags for HOST and PORT are not provided, the default values for HOST and PORT are `LOCALHOST` and `50007`/`50008`/`50009` respectively. 
   
 Go back to Unity, and you’ll see the visualizations start.
 
