@@ -45,7 +45,7 @@ For the DataServer object, go to the "**Listen Ports**" and change the size to 3
 **Python scripts**
 Change the HOST and PORT accordingly in the scripts:
 
-- **host_address**: Get the IP address ****from your terminal with the command `ipconfig` and replace the **HOST** variable with this IP address in the field `Wireless LAN adapter Wi-Fi: IPv4 Address:` . If you are trying to send it to your own computer, you can use `HOST =LOCALHOS``T`.
+- **host_address**: Get the IP address from your terminal with the command `ipconfig` and replace the **HOST** variable with this IP address in the field `Wireless LAN adapter Wi-Fi: IPv4 Address:` . If you are trying to send it to your own computer, you can use `HOST =LOCALHOS``T`.
 - **port_number**: Make sure the PORT numbers are the same as the ones that you wrote on the **DataServer** object.
 
 Press play on Unity, and then run the scripts in the folder ‘LBL’ on a command prompt with the commands,
