@@ -10,8 +10,7 @@ public class LidarVisualizer : PointCloudVisualizer2 {
         Initialize();
 
         SetColor(new Color(1, 0, 0, 0.5f));
-        //SetEmissionColor(new Color(0.25f, 0.25f, 0.25f, 0.25f));
-        SetEmissionColor(new Color(0, 0, 0, 0));
+        SetEmissionColor(new Color(0.25f, 0, 0, 0.5f));
     }
 
     public void SetPointCloud(PointCloud<PointXYZIntensity> newCloud)
@@ -30,7 +29,7 @@ public class LidarVisualizer : PointCloudVisualizer2 {
         foreach (PointXYZIntensity point in newCloud.Points)
         {
             particles[ind].position = (flipYZ) ? new Vector3(point.X, point.Z, point.Y) : new Vector3(point.X, point.Y, point.Z);
-            particles[ind].startSize = 0.08f;
+            particles[ind].startSize = 0.1f;
             ind += 1;
         }
         particle_count = newCloud.Size;

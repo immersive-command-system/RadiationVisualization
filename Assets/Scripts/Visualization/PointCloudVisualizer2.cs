@@ -95,12 +95,17 @@ public class PointCloudVisualizer2 : MonoBehaviour
         Material particleMaterial = new Material(Shader.Find(shader));
         cloud_renderer.material = particleMaterial;
 
+        PrepareMaterial(particleMaterial);
+    }
+
+    protected static void PrepareMaterial(Material particleMaterial)
+    {
         // Make it transparent
         particleMaterial.SetInt("_SrcBlend", (int)UnityEngine.Rendering.BlendMode.SrcAlpha);
-        particleMaterial.SetInt("_DstBlend", (int)UnityEngine.Rendering.BlendMode.OneMinusSrcAlpha);
+        particleMaterial.SetInt("_DstBlend", (int)UnityEngine.Rendering.BlendMode.DstAlpha);
         particleMaterial.SetInt("_ZWrite", 0);
         particleMaterial.DisableKeyword("_ALPHATEST_ON");
-        particleMaterial.DisableKeyword("_ALPHABLEND_ON");
+        particleMaterial.EnableKeyword("_ALPHABLEND_ON");
         particleMaterial.EnableKeyword("_ALPHAPREMULTIPLY_ON");
         particleMaterial.renderQueue = 3000;
     }
@@ -120,14 +125,7 @@ public class PointCloudVisualizer2 : MonoBehaviour
         Material particleMaterial = new Material(Shader.Find(shader));
         renderer.material = particleMaterial;
 
-        // Make it transparent
-        particleMaterial.SetInt("_SrcBlend", (int)UnityEngine.Rendering.BlendMode.SrcAlpha);
-        particleMaterial.SetInt("_DstBlend", (int)UnityEngine.Rendering.BlendMode.DstAlpha);
-        particleMaterial.SetInt("_ZWrite", 0);
-        particleMaterial.DisableKeyword("_ALPHATEST_ON");
-        particleMaterial.DisableKeyword("_ALPHABLEND_ON");
-        particleMaterial.EnableKeyword("_ALPHAPREMULTIPLY_ON");
-        particleMaterial.renderQueue = 3000;
+        PrepareMaterial(particleMaterial);
 
         particleMaterial.SetColor("_Color", new Color(1.0f, 1.0f, 1.0f, 1.0f));
         particleMaterial.SetColor("_EmissionColor", new Color(0.8f, 0.8f, 0.8f, 1.0f));
