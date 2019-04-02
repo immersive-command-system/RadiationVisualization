@@ -26,6 +26,6 @@ public class SubmapListSubscriber : ROSBridgeSubscriber
     public new static void CallBack(ROSBridgeMsg msg)
     {
         SubmapListMsg submapList = (SubmapListMsg)msg;
-        Debug.Log(submapList.ToString());
+        GameObject.Find("Submaps").GetComponent<SubmapManager>().HandleSubmapList(submapList);
     }
 }

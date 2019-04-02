@@ -6,13 +6,18 @@ using Unity.Collections;
 
 public class SubmapServiceResponse : JSONServiceResponse {
 
-    public static string GetServiceName() {
+    public new static string GetServiceName() {
     	return "submap_cloud_query";
     }
 
-    public static void JSONServiceCallBack(JSONNode node)
+    public new static void JSONServiceCallBack(JSONNode node)
     {
+        Debug.Log("Reading Submap...");
         SubmapCloudMsg cloudMsg = new SubmapCloudMsg(node);
+        Debug.Log(cloudMsg.cloud.GetFieldString());
+        SubmapManager mapManager = GameObject.Find("Submaps").GetComponent<SubmapManager>();
+        Debug.Log(mapManager);
+        mapManager.HandleSubmapMessage(cloudMsg);
     }
 
         //public static void JSONServiceCallBack(JSONNode node) {

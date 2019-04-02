@@ -10,8 +10,6 @@ namespace ROSBridgeLib
     {
         public class SubmapCloudMsg
         {
-            public int submap_index;
-            public PoseMsg pose;
             public int submap_version;
             public float resolution;
             public bool finished;

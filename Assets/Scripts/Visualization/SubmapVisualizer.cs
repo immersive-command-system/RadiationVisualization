@@ -15,7 +15,7 @@ public class SubmapVisualizer : PointCloudVisualizer2
         SetEmissionColor(new Color(0.8f, 0.8f, 0.8f, 0.8f));
     }
 
-    void UpdateMap(PointCloud.PointCloud<PointXYZ> c)
+    public void UpdateMap(PointCloud.PointCloud<PointXYZIntensity> c)
     {
         if (particles.Length < c.Size)
         {
@@ -26,7 +26,7 @@ public class SubmapVisualizer : PointCloudVisualizer2
             }
         }
         int ind = 0;
-        foreach (PointXYZ p in c.Points)
+        foreach (PointXYZIntensity p in c.Points)
         {
             particles[ind].position = (flipYZ) ? new Vector3(p.X, p.Z, p.Y) : new Vector3(p.X, p.Y, p.Z);
             particles[ind].startSize = 0.1f;

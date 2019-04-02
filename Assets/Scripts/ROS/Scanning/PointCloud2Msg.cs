@@ -38,14 +38,15 @@ public class PointCloud2Msg : ROSBridgeMsg {
         }
         _data = System.Convert.FromBase64String(msg["data"]);
         _cloud = ReadData(_data);
-	}
+        Debug.Log("Done2");
+    }
 
-	public PointCloud2Msg(HeaderMsg header, uint height, uint width, PointFieldMsg fields, bool is_bigendian, uint point_step, uint row_step, byte[] data, bool is_dense) {
+	public PointCloud2Msg(HeaderMsg header, uint height, uint width, PointFieldMsg[] fields, bool is_bigendian, uint point_step, uint row_step, byte[] data, bool is_dense) {
 		_header = header;
 		_height = height;
 		_width = width;
-		//_fields = fields;
-		_is_dense = is_dense;
+        _fields = fields;
+        _is_dense = is_dense;
 		_is_bigendian = is_bigendian;
 		_point_step = point_step;
 		_row_step = row_step;
@@ -54,17 +55,20 @@ public class PointCloud2Msg : ROSBridgeMsg {
 
 	private PointCloud<PointXYZIntensity> ReadData(byte[] byteArray) {
 		PointCloud<PointXYZIntensity> cloud = new PointCloud<PointXYZIntensity> ();
-        for (int i = 0; i < _width * _height; i++) {
+        int temp = byteArray.Length / (int)_point_step;
+        for (int i = 0; i < _width * _height - 2; i++) {
             float x = System.BitConverter.ToSingle(_data, i * (int)_point_step + 0);
             float y = System.BitConverter.ToSingle(_data, i * (int)_point_step + 4);
             float z = System.BitConverter.ToSingle(_data, i * (int)_point_step + 8);
             float intensity = System.BitConverter.ToSingle(_data, i * (int)_point_step + 16);
-            if (!float.IsNaN(x + y + z))
+            if (!(float.IsNaN(x) || float.IsNaN(y) || float.IsNaN(z) || float.IsNaN(intensity)))
             {
                 PointXYZIntensity p = new PointXYZIntensity(x, y, z, intensity);
                 cloud.Add(p);
-            }   
+            }
+            //Debug.Log(i + "/" + _width * _height + ", " + temp);
 		}
+        //Debug.Log("Done1");
         return cloud;
 	}
 

@@ -5,9 +5,9 @@ using SimpleJSON;
 public class SubmapConnection : MonoBehaviour
 {
 
-    public bool isUpdating = false;
+    public ROSBridgeWebSocketConnection ros = null;
 
-    private ROSBridgeWebSocketConnection ros = null;
+    bool isUpdating = false;
 
     // Use this for initialization
     void Start()
@@ -15,7 +15,7 @@ public class SubmapConnection : MonoBehaviour
         // TODO: Understand this line
         Debug.Log("Starting Submap Connection...");
         ros = new ROSBridgeWebSocketConnection("ws://128.32.43.94", 9090);
-        //ros.AddSubscriber(typeof(SubmapListSubscriber));
+        ros.AddSubscriber(typeof(SubmapListSubscriber));
         ros.AddJSONServiceResponse(typeof(SubmapServiceResponse));
         ros.Connect();
     }
