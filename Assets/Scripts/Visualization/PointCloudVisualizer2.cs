@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class PointCloudVisualizer2 : MonoBehaviour
 {
-    public int initialParticleCount = 200000;
+    public int initialParticleCount = 20000;
 
     protected ParticleSystem cloud;
     protected ParticleSystemRenderer cloud_renderer;
     protected ParticleSystem.Particle[] particles;
-    protected int particle_count;
+    protected int particle_count = 0;
     protected bool hasChanged = false;
 
     private bool initialized = false;
@@ -36,8 +36,11 @@ public class PointCloudVisualizer2 : MonoBehaviour
     {
         if (hasChanged)
         {
+            AddParticle(new ParticleSystem.Particle());
             hasChanged = false;
+            Debug.Log("Updating to " + particle_count + ", " + particles.Length);
             cloud.SetParticles(particles, particle_count);
+            Debug.Log("Done");
         }
     }
 

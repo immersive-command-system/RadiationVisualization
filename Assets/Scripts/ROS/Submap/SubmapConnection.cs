@@ -34,10 +34,10 @@ public class SubmapConnection : MonoBehaviour
     {
         ros.Render();
 
-        if (Input.GetKeyUp(KeyCode.Space) && !isUpdating)
-        {
-            isUpdating = true;
-            ros.CallService(SubmapServiceResponse.GetServiceName(), "[0, 0, 0.5, false]");
-        }
+        //if (Input.GetKeyUp(KeyCode.Space) && !isUpdating)
+        //{
+        //    isUpdating = true;
+        //    ros.CallService(SubmapServiceResponse.GetServiceName(), "[0, 0, 0.5, false]");
+        //}
     }
 }

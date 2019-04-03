@@ -29,13 +29,12 @@ public class SubmapManager : MonoBehaviour
             msg.submap_version > newest_version[msg.submap_index].submap_version)
         {
             newest_version[msg.submap_index] = msg;
-            Debug.Log("Update available for submap: " + msg.submap_index);
+            //Debug.Log("Update available for submap: " + msg.submap_index);
         }
     }
 
     public void HandleSubmapMessage(SubmapCloudMsg msg)
     {
-        Debug.Log("Done3");
         if (pending_submap != null)
         {
             Debug.Log("Received pointcloud for submap:" + pending_submap.submap_index);
@@ -62,7 +61,7 @@ public class SubmapManager : MonoBehaviour
             vis.UpdateMap(msg.cloud.GetCloud());
             
             submap_versions[pending_submap.submap_index] = pending_submap.submap_version;
-            pending_submap = null;
+            //pending_submap = null;
         }
     }
 

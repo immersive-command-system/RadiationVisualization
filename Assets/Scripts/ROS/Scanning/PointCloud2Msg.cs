@@ -56,14 +56,15 @@ public class PointCloud2Msg : ROSBridgeMsg {
 	private PointCloud<PointXYZIntensity> ReadData(byte[] byteArray) {
 		PointCloud<PointXYZIntensity> cloud = new PointCloud<PointXYZIntensity> ();
         int temp = byteArray.Length / (int)_point_step;
-        for (int i = 0; i < _width * _height - 2; i++) {
+        for (int i = 0; i < _width * _height; i++) {
             float x = System.BitConverter.ToSingle(_data, i * (int)_point_step + 0);
             float y = System.BitConverter.ToSingle(_data, i * (int)_point_step + 4);
             float z = System.BitConverter.ToSingle(_data, i * (int)_point_step + 8);
-            float intensity = System.BitConverter.ToSingle(_data, i * (int)_point_step + 16);
+            float intensity = System.BitConverter.ToSingle(_data, i * (int)_point_step + 12);
             if (!(float.IsNaN(x) || float.IsNaN(y) || float.IsNaN(z) || float.IsNaN(intensity)))
             {
                 PointXYZIntensity p = new PointXYZIntensity(x, y, z, intensity);
+                //Debug.Log(x + ", " + y + ", " + z);
                 cloud.Add(p);
             }
             //Debug.Log(i + "/" + _width * _height + ", " + temp);

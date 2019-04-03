@@ -16,7 +16,6 @@ public class SubmapServiceResponse : JSONServiceResponse {
         SubmapCloudMsg cloudMsg = new SubmapCloudMsg(node);
         Debug.Log(cloudMsg.cloud.GetFieldString());
         SubmapManager mapManager = GameObject.Find("Submaps").GetComponent<SubmapManager>();
-        Debug.Log(mapManager);
         mapManager.HandleSubmapMessage(cloudMsg);
     }
 
