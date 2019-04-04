@@ -36,9 +36,14 @@ public class PointCloud2Msg : ROSBridgeMsg {
         {
             _fields[i] = new PointFieldMsg(msg["fields"][i]);
         }
-        _data = System.Convert.FromBase64String(msg["data"]);
-        _cloud = ReadData(_data);
-        Debug.Log("Done2");
+        if (msg["data"] == null)
+        {
+            _cloud = new PointCloud<PointXYZIntensity>();
+        } else
+        {
+            _data = System.Convert.FromBase64String(msg["data"]);
+            _cloud = ReadData(_data);
+        }
     }
 
 	public PointCloud2Msg(HeaderMsg header, uint height, uint width, PointFieldMsg[] fields, bool is_bigendian, uint point_step, uint row_step, byte[] data, bool is_dense) {

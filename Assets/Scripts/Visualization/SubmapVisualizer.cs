@@ -1,6 +1,4 @@
 ﻿using PointCloud;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class SubmapVisualizer : PointCloudVisualizer2
@@ -13,6 +11,7 @@ public class SubmapVisualizer : PointCloudVisualizer2
     void Start()
     {
         Initialize();
+        SetShader("Particles/Standard Surface");
         SetColor(new Color(1, 1, 1, 1));
         SetEmissionColor(new Color(0.8f, 0.8f, 0.8f, 0.8f));
 
@@ -30,7 +29,6 @@ public class SubmapVisualizer : PointCloudVisualizer2
             pending_cloud = c;
             return;
         }
-        Debug.Log("Cloud Size: " + c.Size);
         if (particles.Length < c.Size)
         {
             particles = new ParticleSystem.Particle[c.Size];
@@ -43,7 +41,8 @@ public class SubmapVisualizer : PointCloudVisualizer2
         foreach (PointXYZIntensity p in c.Points)
         {
             particles[ind].position = (flipYZ) ? new Vector3(p.X, p.Z, p.Y) : new Vector3(p.X, p.Y, p.Z);
-            particles[ind].startSize = 0.1f;
+            particles[ind].startColor = new Color32(255, 255, 255, (byte)(255 * p.intensity));
+            particles[ind].startSize = 0.1f * p.intensity;
             ind++;
         }
         particle_count = c.Size;

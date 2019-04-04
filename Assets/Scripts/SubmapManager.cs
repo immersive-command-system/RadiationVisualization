@@ -6,14 +6,15 @@ using ROSBridgeLib.cartographer_msgs;
 public class SubmapManager : MonoBehaviour
 {
     public SubmapConnection connection;
+    public bool flipYZ = false;
 
-    private float threshold_probability = 0.5f;
+    private float threshold_probability = 0.9f;
 
     private Dictionary<int, int> submap_versions = new Dictionary<int, int>();
     private Dictionary<int, SubmapEntryMsg> newest_version = new Dictionary<int, SubmapEntryMsg>();
     private Dictionary<int, SubmapVisualizer> submaps = new Dictionary<int, SubmapVisualizer>();
 
-    public SubmapEntryMsg pending_submap = null;
+    private SubmapEntryMsg pending_submap = null;
 
     public void HandleSubmapList(SubmapListMsg msg)
     {
@@ -29,7 +30,6 @@ public class SubmapManager : MonoBehaviour
             msg.submap_version > newest_version[msg.submap_index].submap_version)
         {
             newest_version[msg.submap_index] = msg;
-            //Debug.Log("Update available for submap: " + msg.submap_index);
         }
     }
 
@@ -37,7 +37,6 @@ public class SubmapManager : MonoBehaviour
     {
         if (pending_submap != null)
         {
-            Debug.Log("Received pointcloud for submap:" + pending_submap.submap_index);
             GameObject obj;
             SubmapVisualizer vis;
             if (!submaps.ContainsKey(pending_submap.submap_index))
@@ -45,6 +44,7 @@ public class SubmapManager : MonoBehaviour
                 obj = new GameObject();
                 obj.transform.parent = transform;
                 vis = obj.AddComponent<SubmapVisualizer>();
+                vis.flipYZ = this.flipYZ;
                 submaps.Add(pending_submap.submap_index, vis);
             } else {
                 vis = submaps[pending_submap.submap_index];
@@ -61,7 +61,7 @@ public class SubmapManager : MonoBehaviour
             vis.UpdateMap(msg.cloud.GetCloud());
             
             submap_versions[pending_submap.submap_index] = pending_submap.submap_version;
-            //pending_submap = null;
+            pending_submap = null;
         }
     }
 
@@ -89,7 +89,7 @@ public class SubmapManager : MonoBehaviour
             }
             if (minIndex >= 0) {
                 pending_submap = needed_submap;
-                Debug.Log("Requestiong Submap: " + pending_submap.submap_index);
+                //Debug.Log("Requestiong Submap: " + pending_submap.submap_index);
                 connection.ros.CallService(SubmapServiceResponse.GetServiceName(), string.Format("[0, {0}, {1}, false]", minIndex, threshold_probability));
             }
         }

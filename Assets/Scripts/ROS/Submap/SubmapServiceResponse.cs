@@ -12,9 +12,7 @@ public class SubmapServiceResponse : JSONServiceResponse {
 
     public new static void JSONServiceCallBack(JSONNode node)
     {
-        Debug.Log("Reading Submap...");
         SubmapCloudMsg cloudMsg = new SubmapCloudMsg(node);
-        Debug.Log(cloudMsg.cloud.GetFieldString());
         SubmapManager mapManager = GameObject.Find("Submaps").GetComponent<SubmapManager>();
         mapManager.HandleSubmapMessage(cloudMsg);
     }

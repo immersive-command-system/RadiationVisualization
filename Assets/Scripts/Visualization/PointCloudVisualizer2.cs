@@ -5,6 +5,7 @@ using UnityEngine;
 public class PointCloudVisualizer2 : MonoBehaviour
 {
     public int initialParticleCount = 20000;
+    public float updateInterval = 2;
 
     protected ParticleSystem cloud;
     protected ParticleSystemRenderer cloud_renderer;
@@ -15,7 +16,9 @@ public class PointCloudVisualizer2 : MonoBehaviour
     private bool initialized = false;
 
     private string shader = "Standard";
-    
+
+    private bool should_update = true;
+    private float updateTimer = 0;
 
     protected void Initialize()
     {
@@ -34,14 +37,26 @@ public class PointCloudVisualizer2 : MonoBehaviour
 
     void Update()
     {
-        if (hasChanged)
+        if (should_update)
         {
-            AddParticle(new ParticleSystem.Particle());
-            hasChanged = false;
-            Debug.Log("Updating to " + particle_count + ", " + particles.Length);
-            cloud.SetParticles(particles, particle_count);
-            Debug.Log("Done");
+            if (updateTimer >= updateInterval)
+            {
+                cloud.SetParticles(particles, particle_count, 0);
+                updateTimer = 0;
+            }
+            updateTimer += Time.deltaTime;
         }
+    }
+
+    public void StopUpdate()
+    {
+        should_update = false;
+    }
+    
+    public void ResumeUpdate()
+    {
+        should_update = true;
+        updateTimer = updateInterval;
     }
 
     protected void AddParticle(ParticleSystem.Particle p)
