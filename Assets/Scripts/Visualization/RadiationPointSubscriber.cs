@@ -22,12 +22,9 @@ public class RadiationPointSubscriber : PointCloudVisualizer2, DataServer.DataSu
         SetColor(new Color(1, 1, 1, 0.2f));
         SetEmissionColor(new Color(0, 0, 0, 0));
 
-        cloud_renderer.renderMode = ParticleSystemRenderMode.Mesh;
         GameObject temp = GameObject.CreatePrimitive(PrimitiveType.Cube);
-        cloud_renderer.mesh = temp.GetComponent<MeshFilter>().mesh;
+        SetRenderMethod(ParticleSystemRenderMode.Mesh, temp.GetComponent<MeshFilter>().mesh);
         Destroy(temp);
-
-        SetFollowCamera(false);
 
         server.RegisterDataSubscriber("Radiation", this);
 

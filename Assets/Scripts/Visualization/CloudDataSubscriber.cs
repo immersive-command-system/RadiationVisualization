@@ -22,6 +22,10 @@ public class CloudDataSubscriber : PointCloudVisualizer2, DataServer.DataSubscri
         SetColor(new Color(1, 1, 1, 1));
         SetEmissionColor(new Color(0.8f, 0.8f, 0.8f, 0.8f));
 
+        GameObject temp = GameObject.CreatePrimitive(PrimitiveType.Cube);
+        SetRenderMethod(ParticleSystemRenderMode.Mesh, temp.GetComponent<MeshFilter>().mesh);
+        Destroy(temp);
+
         // Called to attach as a subscriber to DataServer.
         server.RegisterDataSubscriber("Cloud", this);
     }

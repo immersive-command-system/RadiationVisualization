@@ -6,7 +6,19 @@ using ROSBridgeLib.cartographer_msgs;
 public class SubmapManager : MonoBehaviour
 {
     public SubmapConnection connection;
-    public bool flipYZ = false;
+    public bool flipYZ
+    {
+        get
+        {
+            return _flipYZ;
+        }
+        set
+        {
+            _flipYZ = value;
+            transform.rotation = Quaternion.Euler((_flipYZ) ? -90 : 0, 0, 0);
+        }
+    }
+    private bool _flipYZ;
 
     private float threshold_probability = 0.9f;
 
@@ -15,6 +27,11 @@ public class SubmapManager : MonoBehaviour
     private Dictionary<int, SubmapVisualizer> submaps = new Dictionary<int, SubmapVisualizer>();
 
     private SubmapEntryMsg pending_submap = null;
+
+    private void Start()
+    {
+        flipYZ = true;
+    }
 
     public void HandleSubmapList(SubmapListMsg msg)
     {
@@ -44,32 +61,21 @@ public class SubmapManager : MonoBehaviour
                 obj = new GameObject();
                 obj.transform.parent = transform;
                 vis = obj.AddComponent<SubmapVisualizer>();
-                vis.flipYZ = this.flipYZ;
                 submaps.Add(pending_submap.submap_index, vis);
             } else {
                 vis = submaps[pending_submap.submap_index];
                 obj = vis.gameObject;
             }
-            
-            if (flipYZ)
-            {
-                obj.transform.position = new Vector3(pending_submap.pose._position.GetX(),
-                pending_submap.pose._position.GetZ(),
-                pending_submap.pose._position.GetY());
-                obj.transform.rotation = new Quaternion(pending_submap.pose._orientation.GetX(),
-                    pending_submap.pose._orientation.GetZ(),
-                    pending_submap.pose._orientation.GetY(),
-                    pending_submap.pose._orientation.GetW());
-            } else
-            {
-                obj.transform.position = new Vector3(pending_submap.pose._position.GetX(),
+
+            obj.transform.position = this.transform.position + (new Vector3(
+                pending_submap.pose._position.GetX(),
                 pending_submap.pose._position.GetY(),
-                pending_submap.pose._position.GetZ());
-                obj.transform.rotation = new Quaternion(pending_submap.pose._orientation.GetX(),
-                    pending_submap.pose._orientation.GetY(),
-                    pending_submap.pose._orientation.GetZ(),
-                    pending_submap.pose._orientation.GetW());
-            }
+                pending_submap.pose._position.GetZ()));
+            obj.transform.rotation = this.transform.rotation * (new Quaternion(
+                pending_submap.pose._orientation.GetX(),
+                pending_submap.pose._orientation.GetY(),
+                pending_submap.pose._orientation.GetZ(),
+                pending_submap.pose._orientation.GetW()));
             
             vis.UpdateMap(msg.cloud.GetCloud());
             

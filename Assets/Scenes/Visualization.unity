@@ -281,7 +281,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   connection: {fileID: 1411788372}
-  flipYZ: 1
 --- !u!114 &1411788372
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -5,20 +5,25 @@ using UnityEngine;
 public class PointCloudVisualizer2 : MonoBehaviour
 {
     public int initialParticleCount = 20000;
-    public float updateInterval = 2;
 
     protected ParticleSystem cloud;
     protected ParticleSystemRenderer cloud_renderer;
     protected ParticleSystem.Particle[] particles;
     protected int particle_count = 0;
+
+    public enum UpdateMode
+    {
+        TIMED,
+        ON_REFRESH
+    };
+    private UpdateMode update_mode = UpdateMode.ON_REFRESH;
+    private float updateTimer = 0;
+    public float updateInterval = 2;
     protected bool hasChanged = false;
 
     private bool initialized = false;
 
     private string shader = "Standard";
-
-    private bool should_update = true;
-    private float updateTimer = 0;
 
     protected void Initialize()
     {
@@ -29,6 +34,7 @@ public class PointCloudVisualizer2 : MonoBehaviour
         }
         cloud_renderer = GetComponent<ParticleSystemRenderer>();
         InitializeParticleSystem(cloud, cloud_renderer, initialParticleCount);
+        SetRenderMethod(ParticleSystemRenderMode.Billboard);
 
         particles = new ParticleSystem.Particle[initialParticleCount];
 
@@ -37,26 +43,33 @@ public class PointCloudVisualizer2 : MonoBehaviour
 
     void Update()
     {
-        if (should_update)
+        bool should_update = false;
+        if (update_mode == UpdateMode.TIMED)
         {
             if (updateTimer >= updateInterval)
             {
-                cloud.SetParticles(particles, particle_count, 0);
+                should_update = true;
                 updateTimer = 0;
             }
             updateTimer += Time.deltaTime;
+        } else if (update_mode == UpdateMode.ON_REFRESH)
+        {
+            should_update = hasChanged;
+            hasChanged = false;
+        }
+        if (should_update)
+        {
+            cloud.SetParticles(particles, particle_count, 0);
         }
     }
 
-    public void StopUpdate()
+    public void SetUpdateMode(UpdateMode mode)
     {
-        should_update = false;
-    }
-    
-    public void ResumeUpdate()
-    {
-        should_update = true;
-        updateTimer = updateInterval;
+        if (mode == UpdateMode.TIMED)
+        {
+            updateTimer = updateInterval;
+        }
+        update_mode = mode;
     }
 
     protected void AddParticle(ParticleSystem.Particle p)
@@ -107,6 +120,20 @@ public class PointCloudVisualizer2 : MonoBehaviour
         cloud_renderer.alignment = (follow) ? ParticleSystemRenderSpace.Facing : ParticleSystemRenderSpace.World;
     }
 
+    protected void SetRenderMethod(ParticleSystemRenderMode mode, Mesh mesh = null)
+    {
+        cloud_renderer.renderMode = mode;
+        if (mode == ParticleSystemRenderMode.Mesh)
+        {
+            SetFollowCamera(false);
+            cloud_renderer.mesh = mesh;
+            cloud_renderer.enableGPUInstancing = true;
+        } else
+        {
+            SetFollowCamera(true);
+        }
+    }
+
     protected void SetShader(string shader_name)
     {
         shader = shader_name;
@@ -139,6 +166,7 @@ public class PointCloudVisualizer2 : MonoBehaviour
         renderer.sortMode = ParticleSystemSortMode.Distance;
         renderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
         renderer.receiveShadows = false;
+        renderer.enableGPUInstancing = true;
         
         Material particleMaterial = new Material(Shader.Find(shader));
         renderer.material = particleMaterial;
