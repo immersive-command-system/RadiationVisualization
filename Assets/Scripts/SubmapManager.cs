@@ -51,13 +51,26 @@ public class SubmapManager : MonoBehaviour
                 obj = vis.gameObject;
             }
             
-            obj.transform.position = new Vector3(pending_submap.pose._position.GetX(), 
-                pending_submap.pose._position.GetY(), 
+            if (flipYZ)
+            {
+                obj.transform.position = new Vector3(pending_submap.pose._position.GetX(),
+                pending_submap.pose._position.GetZ(),
+                pending_submap.pose._position.GetY());
+                obj.transform.rotation = new Quaternion(pending_submap.pose._orientation.GetX(),
+                    pending_submap.pose._orientation.GetZ(),
+                    pending_submap.pose._orientation.GetY(),
+                    pending_submap.pose._orientation.GetW());
+            } else
+            {
+                obj.transform.position = new Vector3(pending_submap.pose._position.GetX(),
+                pending_submap.pose._position.GetY(),
                 pending_submap.pose._position.GetZ());
-            obj.transform.rotation = new Quaternion(pending_submap.pose._orientation.GetX(), 
-                pending_submap.pose._orientation.GetY(), 
-                pending_submap.pose._orientation.GetZ(), 
-                pending_submap.pose._orientation.GetW());
+                obj.transform.rotation = new Quaternion(pending_submap.pose._orientation.GetX(),
+                    pending_submap.pose._orientation.GetY(),
+                    pending_submap.pose._orientation.GetZ(),
+                    pending_submap.pose._orientation.GetW());
+            }
+            
             vis.UpdateMap(msg.cloud.GetCloud());
             
             submap_versions[pending_submap.submap_index] = pending_submap.submap_version;

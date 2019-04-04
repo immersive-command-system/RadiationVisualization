@@ -211,6 +211,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   initialParticleCount: 200000
+  updateInterval: 2
   server: {fileID: 1620835127}
   flipYZ: 1
   msgCount: 0
@@ -280,6 +281,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   connection: {fileID: 1411788372}
+  flipYZ: 1
 --- !u!114 &1411788372
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -381,6 +383,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   initialParticleCount: 200000
+  updateInterval: 2
   server: {fileID: 1620835127}
   flipYZ: 1
 --- !u!4 &2054853794
