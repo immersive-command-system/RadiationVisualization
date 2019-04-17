@@ -24,6 +24,8 @@ namespace ROSBridgeLib
         public Datatype datatype;
         public int count;
 
+        public int byteLength = 0;
+
         public RNPointFieldMsg(JSONNode node)
         {
             name = node["name"];
@@ -34,30 +36,39 @@ namespace ROSBridgeLib
             {
                 case PointFieldMsg.INT8:
                     datatype = Datatype.INT8;
+                    byteLength = 1;
                     break;
                 case PointFieldMsg.UINT8:
                     datatype = Datatype.UINT8;
+                    byteLength = 1;
                     break;
                 case PointFieldMsg.INT16:
                     datatype = Datatype.INT16;
+                    byteLength = 2;
                     break;
                 case PointFieldMsg.UINT16:
                     datatype = Datatype.UINT16;
+                    byteLength = 2;
                     break;
                 case PointFieldMsg.INT32:
                     datatype = Datatype.INT32;
+                    byteLength = 4;
                     break;
                 case PointFieldMsg.UINT32:
                     datatype = Datatype.UINT32;
+                    byteLength = 4;
                     break;
                 case 7:
                     datatype = Datatype.INT64;
+                    byteLength = 8;
                     break;
                 case PointFieldMsg.FLOAT32 + 1:
                     datatype = Datatype.FLOAT32;
+                    byteLength = 4;
                     break;
                 case PointFieldMsg.FLOAT64 + 1:
                     datatype = Datatype.FLOAT64;
+                    byteLength = 4;
                     break;
                 default:
                     break;
@@ -66,7 +77,7 @@ namespace ROSBridgeLib
 
         public override string ToString()
         {
-            return string.Format("{0}({1}): {2}", name, count, datatype);
+            return string.Format("{0}({1}): {2}", name, offset, datatype);
         }
     }
 }

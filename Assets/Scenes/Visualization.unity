@@ -260,6 +260,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1123779597}
   - component: {fileID: 1123779596}
+  - component: {fileID: 1123779598}
   m_Layer: 0
   m_Name: LiveRadiation
   m_TagString: Untagged
@@ -293,6 +294,22 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1123779598
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1123779595}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e1c1cc281482f14b8c4b165e8c17609, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  initialParticleCount: 20000
+  updateInterval: 2
+  pointSize: 0.1
+  maxRadiationLevel: 0.0007
 --- !u!1 &1411788370
 GameObject:
   m_ObjectHideFlags: 0

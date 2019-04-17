@@ -44,7 +44,7 @@ namespace ROSBridgeLib
                 scalar_fields[i] = new RNPointFieldMsg(fields_arr[i]);
             }
 
-            data = ROSBridgeUtils.ParseJSONRawData(node["data"]);
+            data = ROSBridgeUtils.ParseJSONRawData(node["data"], is_bigendian);
         }
     }
 }

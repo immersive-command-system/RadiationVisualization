@@ -11,22 +11,38 @@ namespace ROSBridgeLib
     {
         public class ROSBridgeUtils
         {
-            public static byte[] JSONDataToBytes(JSONNode node)
+            public static byte[] JSONDataToBytes(JSONNode node, bool is_bigendian = true)
             {
-                return System.Convert.FromBase64String(node.Value);
-            }
-
-            public static byte[] JSONArrayToBytes(JSONArray array)
-            {
-                byte[] data = new byte[array.Count];
-                for (int i = 0; i < data.Length; i++)
+                byte[] data = System.Convert.FromBase64String(node.Value);
+                if (!is_bigendian)
                 {
-                    data[i] = (byte)array[i].AsInt;
+                    System.Array.Reverse(data);
                 }
                 return data;
             }
 
-            public static byte[] ParseJSONRawData(JSONNode node)
+            public static byte[] JSONArrayToBytes(JSONArray array, bool is_bigendian = true)
+            {
+                byte[] data = new byte[array.Count];
+                if (is_bigendian)
+                {
+                    for (int i = 0; i < data.Length; i++)
+                    {
+                        data[i] = (byte)array[i].AsInt;
+                    }
+                }
+                else
+                {
+                    for (int i = 0; i < data.Length; i++)
+                    {
+                        data[data.Length - i - 1] = (byte)array[i].AsInt;
+                    }
+                }
+                
+                return data;
+            }
+
+            public static byte[] ParseJSONRawData(JSONNode node, bool is_bigendian = true)
             {
                 if (node.GetType() == typeof(JSONArray)) {
                     return JSONArrayToBytes(node.AsArray);
