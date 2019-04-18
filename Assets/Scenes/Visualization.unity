@@ -197,7 +197,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &180634827
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -215,6 +215,7 @@ MonoBehaviour:
   server: {fileID: 1620835127}
   flipYZ: 1
   msgCount: 0
+  radiationDataSource: {fileID: 2054853793}
 --- !u!4 &180634828
 Transform:
   m_ObjectHideFlags: 0
@@ -267,7 +268,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1123779596
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -383,7 +384,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1620835127
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -428,7 +429,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &2054853793
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -550,7 +551,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 100002, guid: 57c757def06707e4c8946ed4268f4196, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 400002, guid: 57c757def06707e4c8946ed4268f4196, type: 3}
       propertyPath: m_LocalScale.x

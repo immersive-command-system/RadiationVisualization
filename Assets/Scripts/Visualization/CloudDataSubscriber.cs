@@ -16,9 +16,14 @@ public class CloudDataSubscriber : PointCloudVisualizer2, DataServer.DataSubscri
     // Counts the number of messages this subscriber receives.
     public int msgCount = 0;
 
+    public RadiationPointSubscriber radiationDataSource = null;
+
     void Start ()
     {
         Initialize();
+
+        SetShader("Particles/Standard Unlit");
+
         SetColor(new Color(1, 1, 1, 1));
         SetEmissionColor(new Color(0.8f, 0.8f, 0.8f, 0.8f));
 
@@ -43,6 +48,15 @@ public class CloudDataSubscriber : PointCloudVisualizer2, DataServer.DataSubscri
             ParticleSystem.Particle p = new ParticleSystem.Particle();
             p.position = (flipYZ) ? new Vector3(x, z, y) : new Vector3(x, y, z);
             p.startSize = 0.1f;
+
+            if (radiationDataSource != null)
+            {
+                p.startColor = radiationDataSource.GetRadiationColor(p.position);
+            } else
+            {
+                p.startColor = new Color(1, 1, 1, 0.8f);
+            }
+
             AddParticle(p);
         }
     }    

@@ -104,6 +104,55 @@ public class PointCloudVisualizer2 : MonoBehaviour
         hasChanged = true;
     }
 
+    private List<Color> results = new List<Color>();
+    public void ApplyColorSpace(BoundsOctree<Color> colorMap)
+    {
+        results.Clear();
+        for (int i = 0; i < particle_count; i++)
+        {
+            colorMap.GetColliding(results, new Bounds(particles[i].position, particles[i].startSize * Vector3.one));
+            if (results.Count > 0)
+            {
+                Color c = results[0];
+                for (int j = 1; j < results.Count; j++)
+                {
+                    c += results[j];
+                }
+                particles[i].startColor = c;
+            }
+        }
+        OnParticlesUpdated();
+    }
+
+    public void ApplyColorSpace(Color[, ,] colorMap, Vector3 origin, Vector3 voxelDimensions)
+    {
+        for (int i = 0; i < particle_count; i++)
+        {
+            Vector3 particlePos = particles[i].position;
+            if (particlePos.x < origin.x ||
+                particlePos.y < origin.y || 
+                particlePos.z < origin.z)
+            {
+                continue;
+            }
+            int ind_x = Mathf.RoundToInt((particlePos.x - origin.x) / voxelDimensions.x);
+            int ind_y = Mathf.RoundToInt((particlePos.y - origin.y) / voxelDimensions.y);
+            int ind_z = Mathf.RoundToInt((particlePos.z - origin.z) / voxelDimensions.z);
+
+            if (ind_x >= colorMap.GetLength(0) || 
+                ind_y >= colorMap.GetLength(1) || 
+                ind_z >= colorMap.GetLength(2))
+            {
+                continue;
+            }
+
+            particles[i].startColor = colorMap[ind_x, ind_y, ind_z];
+        }
+        OnParticlesUpdated();
+    }
+
+
+
     protected void SetEmissionColor(Color c)
     {
         Material particleMaterial = cloud_renderer.material;
