@@ -11,6 +11,8 @@ public class PointCloudVisualizer2 : MonoBehaviour
     protected ParticleSystem.Particle[] particles;
     protected int particle_count = 0;
 
+    protected PointOctree<ParticleSystem.Particle> pointTree;
+
     public enum UpdateMode
     {
         TIMED,
@@ -37,6 +39,7 @@ public class PointCloudVisualizer2 : MonoBehaviour
         SetRenderMethod(ParticleSystemRenderMode.Billboard);
 
         particles = new ParticleSystem.Particle[initialParticleCount];
+        pointTree = new PointOctree<ParticleSystem.Particle>(15, transform.position, 3);
 
         initialized = true;
     }
@@ -96,35 +99,95 @@ public class PointCloudVisualizer2 : MonoBehaviour
         particles[particle_count] = p;
         particle_count++;
 
+        pointTree.Add(p, p.position);
+
         hasChanged = true;
     }
 
-    protected void OnParticlesUpdated()
+    protected void OnParticlesUpdated(int newParticleCount)
     {
         hasChanged = true;
+        for (int i = particle_count - newParticleCount; i < particle_count; i++)
+        {
+            pointTree.Add(particles[i], particles[i].position);
+        }
     }
 
     private List<Color> results = new List<Color>();
     public void ApplyColorSpace(BoundsOctree<Color> colorMap)
     {
-        results.Clear();
-        for (int i = 0; i < particle_count; i++)
+        //for (int i = 0; i < particle_count; i++)
+        //{
+        //    results.Clear();
+        //    colorMap.GetColliding(results, new Bounds(particles[i].position, particles[i].startSize * Vector3.one));
+        //    if (results.Count > 0)
+        //    {
+        //        Color c = results[0];
+        //        for (int j = 1; j < results.Count; j++)
+        //        {
+        //            c += results[j];
+        //        }
+        //        particles[i].startColor = c;
+        //    }
+        //}
+        //OnParticlesUpdated(0);
+
+        BoundsOctreeNode<Color> currNode = null;
+        BoundsOctreeNode<Color> nextChild = null;
+        Color targetColor = Color.white;
+        bool found;
+
+        int ind = 0;
+        foreach (ParticleSystem.Particle p in pointTree)
         {
-            colorMap.GetColliding(results, new Bounds(particles[i].position, particles[i].startSize * Vector3.one));
-            if (results.Count > 0)
+            found = false;
+            if (currNode == null)
             {
-                Color c = results[0];
-                for (int j = 1; j < results.Count; j++)
+                currNode = colorMap.GetDeepestEncapsulate(new Bounds(p.position, new Vector3(0.01f, 0.01f, 0.01f)));
+            }
+            while (!currNode.bounds.Contains(p.position))
+            {
+                currNode = currNode.parent;
+            }
+            nextChild = currNode;
+            while(nextChild != null)
+            {
+                currNode = nextChild;
+
+                foreach (BoundsOctreeNode<Color>.OctreeObject obj in currNode.objects)
                 {
-                    c += results[j];
+                    if (obj.Bounds.Contains(p.position))
+                    {
+                        targetColor = obj.Obj;
+                        found = true;
+                        break;
+                    }
                 }
-                particles[i].startColor = c;
+                if (found)
+                {
+                    break;
+                }
+
+                nextChild = null;
+                foreach (BoundsOctreeNode<Color> child in currNode.children)
+                {
+                    if (child.bounds.Contains(p.position))
+                    {
+                        nextChild = child;
+                        break;
+                    }
+                }
+            }
+
+            particles[ind] = p;
+            if (found)
+            {
+                particles[ind].startColor = targetColor;
             }
         }
-        OnParticlesUpdated();
     }
 
-    public void ApplyColorSpace(Color[, ,] colorMap, Vector3 origin, Vector3 voxelDimensions)
+    public void ApplyColorSpace(ref Color[, ,] colorMap, Vector3 origin, Vector3 voxelDimensions)
     {
         for (int i = 0; i < particle_count; i++)
         {
@@ -148,7 +211,7 @@ public class PointCloudVisualizer2 : MonoBehaviour
 
             particles[i].startColor = colorMap[ind_x, ind_y, ind_z];
         }
-        OnParticlesUpdated();
+        OnParticlesUpdated(0);
     }
 
 
