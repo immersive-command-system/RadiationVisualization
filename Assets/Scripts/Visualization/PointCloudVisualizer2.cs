@@ -203,7 +203,8 @@ public class PointCloudVisualizer2 : MonoBehaviour
         sw.WriteLine("COFF");
         sw.WriteLine(particle_count + " " + 0 + " " + 0);
 
-        foreach (ParticleSystem.Particle particle in particles) {
+        for(int i = 0; i < particle_count; i++) {
+            ParticleSystem.Particle particle = particles[i];
             Vector3 pos = particle.position;
             Color32 col = particle.GetCurrentColor(cloud);
 
