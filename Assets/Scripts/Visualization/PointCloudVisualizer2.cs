@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 
 public class PointCloudVisualizer2 : MonoBehaviour
@@ -60,6 +61,10 @@ public class PointCloudVisualizer2 : MonoBehaviour
         if (should_update)
         {
             cloud.SetParticles(particles, particle_count, 0);
+        }
+        if (Input.GetKeyDown("space"))
+        {
+            ExportPointCloud();
         }
     }
 
@@ -192,6 +197,22 @@ public class PointCloudVisualizer2 : MonoBehaviour
         PrepareMaterial(particleMaterial);
     }
 
+    protected void ExportPointCloud()
+    {
+        StreamWriter sw = new StreamWriter("C:\\Users\\ISAACS\\Documents\\ISAACSRadViz\\ColoredPointCloud.off", false);
+        sw.WriteLine("COFF");
+        sw.WriteLine(particle_count + " " + 0 + " " + 0);
+
+        foreach (ParticleSystem.Particle particle in particles) {
+            Vector3 pos = particle.position;
+            Color32 col = particle.GetCurrentColor(cloud);
+
+            sw.WriteLine(pos.x + " " + pos.y + " " + pos.z + " " + col.r + " " + col.g + " " + col.b + " " + col.a);
+            sw.Close();
+        }
+
+    }
+
     protected static void PrepareMaterial(Material particleMaterial)
     {
         // Make it transparent
@@ -266,4 +287,6 @@ public class PointCloudVisualizer2 : MonoBehaviour
         ParticleSystem.CustomDataModule cd = ps.customData;
         cd.enabled = false;
     }
+
+
 }
