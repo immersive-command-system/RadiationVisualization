@@ -206,11 +206,12 @@ public class PointCloudVisualizer2 : MonoBehaviour
         for(int i = 0; i < particle_count; i++) {
             ParticleSystem.Particle particle = particles[i];
             Vector3 pos = particle.position;
-            Color32 col = particle.GetCurrentColor(cloud);
+            Color32 col = particle.startColor;
 
             sw.WriteLine(pos.x + " " + pos.y + " " + pos.z + " " + col.r + " " + col.g + " " + col.b + " " + col.a);
-            sw.Close();
         }
+
+        sw.Close();
 
     }
 

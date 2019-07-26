@@ -1,9 +1,8 @@
 ﻿using ROSBridgeLib;
-using SimpleJSON;
 using System.Text;
 using UnityEngine;
 
-public class RadiationMsgSubscriber : ROSBridgeSubscriber
+public class RadiationMsgSubscriber : MonoBehaviour
 {
 
     private static string radiationFieldName = "E";
@@ -11,26 +10,34 @@ public class RadiationMsgSubscriber : ROSBridgeSubscriber
     private static string positionYFieldName = "y";
     private static string positionZFieldName = "z";
 
-    private static int verbose = 2;
 
-    public new static string GetMessageTopic()
+    public RadiationConnection data_source = null;
+    public RNDataVisualizer visualizer = null;
+    public static int verbose = 2;
+    
+
+    void Update()
     {
-        return "interaction_data";
+        if (visualizer == null)
+        {
+            visualizer = GetComponent<RNDataVisualizer>();
+            if (visualizer == null)
+            {
+                visualizer = gameObject.AddComponent<RNDataVisualizer>();
+            }
+        }
+        if (data_source == null)
+        {
+            data_source = GetComponent<RadiationConnection>();
+            if (data_source != null)
+            {
+                data_source.AddSubscriber(HandleRNDMsg);
+            }
+        }
     }
 
-    public new static string GetMessageType()
+    public void HandleRNDMsg(in RNDataMsg radiationMsg)
     {
-        return "rntools/RNData";
-    }
-
-    public new static ROSBridgeMsg ParseMessage(JSONNode msg)
-    {
-        return new RNDataMsg(msg);
-    }
-
-    public new static void CallBack(ROSBridgeMsg msg)
-    {
-        RNDataMsg radiationMsg = (RNDataMsg)msg;
         if (verbose > 1)
         {
             StringBuilder sb = new StringBuilder();
@@ -79,16 +86,11 @@ public class RadiationMsgSubscriber : ROSBridgeSubscriber
         {
             return;
         }
-
-        RNDataVisualizer visualizer = GameObject.Find("LiveRadiation").GetComponent<RNDataVisualizer>();
-
+        
         int currStart = 0;
         float x, y, z, intensity;
         for (int i = 0; i < radiationMsg.width; i++, currStart += radiationMsg.point_step)
         {
-            //x = conformToFloat(radiationMsg.data, currStart, field_x);
-            //y = conformToFloat(radiationMsg.data, currStart, field_y);
-            //z = conformToFloat(radiationMsg.data, currStart, field_z);
             x = System.BitConverter.ToSingle(radiationMsg.data, currStart + field_x.offset);
             y = System.BitConverter.ToSingle(radiationMsg.data, currStart + field_y.offset);
             z = System.BitConverter.ToSingle(radiationMsg.data, currStart + field_z.offset);
