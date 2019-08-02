@@ -1,8 +1,4 @@
-﻿using ROSBridgeLib;
-using ROSBridgeLib.sensor_msgs;
-using SimpleJSON;
-using System.IO;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 using Unity.Collections;
 
@@ -34,27 +30,43 @@ public class RawImageViewer : MonoBehaviour
             uint width = imageConnection.width;
             uint height = imageConnection.height;
             byte[] raw_data = imageConnection.curr_image;
+            string encoding = imageConnection.encoding.ToLower();
+
+            if (encoding.Equals("bayer_bggr8"))
+            {
+                width /= 2;
+                height /= 2;
+            }
 
             Debug.LogFormat("{0} x {1}", width, height);
 
             Texture2D tex = cameraDisplay.texture as Texture2D;
             if (tex == null || width != tex.width || height != tex.height)
             {
-                tex = new Texture2D((int)width / 2, (int)height / 2, TextureFormat.RGBA32, false);
+                tex = new Texture2D((int)width, (int)height, TextureFormat.RGBA32, false);
                 cameraDisplay.texture = tex;
             }
 
             NativeArray<Color32> image_data = tex.GetRawTextureData<Color32>();
             if (image_data == null || image_data.Length * 4 != raw_data.Length)
             {
-                tex = new Texture2D((int)width / 2, (int)height / 2, TextureFormat.RGBA32, false);
+                tex = new Texture2D((int)width, (int)height, TextureFormat.RGBA32, false);
                 cameraDisplay.texture = tex;
                 image_data = tex.GetRawTextureData<Color32>();
             }
 
-            for (int ind = 0, o_ind = raw_data.Length - 4; ind < image_data.Length; ind += 1, o_ind -= 4)
+            if (encoding.Equals("bayer_bggr8"))
             {
-                image_data[ind] = new Color32(raw_data[o_ind + 3], (byte)((raw_data[o_ind + 1] + raw_data[o_ind + 2]) / 2), raw_data[o_ind], 255);
+                for (int ind = 0, o_ind = raw_data.Length - 4; ind < image_data.Length; ind += 1, o_ind -= 4)
+                {
+                    image_data[ind] = new Color32(raw_data[o_ind + 3], (byte)((raw_data[o_ind + 1] + raw_data[o_ind + 2]) / 2), raw_data[o_ind], 255);
+                }
+            } else if (encoding.Equals("mono8"))
+            {
+                for (int ind = 0, o_ind = raw_data.Length - 1; ind < image_data.Length; ind += 1, o_ind -= 1)
+                {
+                    image_data[ind] = new Color32(raw_data[o_ind], raw_data[o_ind], raw_data[o_ind], 255);
+                }
             }
 
             //tex.LoadRawTextureData(image_data);

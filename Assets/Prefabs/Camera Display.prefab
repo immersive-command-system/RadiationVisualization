@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 2940448448428659441}
   - component: {fileID: 3909292472498676880}
   - component: {fileID: 4249331038637972646}
-  - component: {fileID: 2136634301564625041}
-  - component: {fileID: 2740549416244959226}
+  - component: {fileID: 4004331876002920587}
+  - component: {fileID: 5963372144046435988}
   m_Layer: 5
   m_Name: Camera Display
   m_TagString: Untagged
@@ -74,7 +74,7 @@ MonoBehaviour:
     y: 0
     width: 1
     height: 1
---- !u!114 &2136634301564625041
+--- !u!114 &4004331876002920587
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -86,8 +86,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e27edd0217c31084f939bcf37a7a379e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rosbridgeAddress: 128.32.43.94
+  rosbridgePort: 9090
   topicName: camera/image_raw
---- !u!114 &2740549416244959226
+--- !u!114 &5963372144046435988
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -99,6 +101,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f51bc96f6d8dc5f498a88f6bba73fd9e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  imageConnection: {fileID: 2136634301564625041}
+  imageConnection: {fileID: 0}
   cameraDisplay: {fileID: 4249331038637972646}
   verbose: 1

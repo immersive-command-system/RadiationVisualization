@@ -35,6 +35,13 @@ public class ImageConnection : MonoBehaviour, ROSTopicSubscriber
             return (curr_image_msg == null) ? 0 : curr_image_msg.GetHeight();
         }
     }
+    public string encoding
+    {
+        get
+        {
+            return (curr_image_msg == null) ? "" : curr_image_msg.GetEncoding();
+        }
+    }
     public float last_update_time { get; private set; } = 0;
 
     public delegate void ImageSubscriber(in byte[] image_data, uint width, uint height);
@@ -100,6 +107,8 @@ public class ImageConnection : MonoBehaviour, ROSTopicSubscriber
                 curr_image_msg = (ImageMsg)parsed;
             }
             last_update_time = Time.time;
+
+            Debug.Log(curr_image_msg.ToString());
 
             lock (subscriber_lock)
             {
