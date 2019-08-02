@@ -36,8 +36,13 @@ public class RadiationMsgSubscriber : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// A callback method for receiving new radiation data messages.
+    /// </summary>
+    /// <param name="radiationMsg">The new radiation data message.</param>
     public void HandleRNDMsg(in RNDataMsg radiationMsg)
     {
+        // For debug
         if (verbose > 1)
         {
             StringBuilder sb = new StringBuilder();
@@ -58,6 +63,9 @@ public class RadiationMsgSubscriber : MonoBehaviour
             Debug.Log(sb.ToString());
         }
 
+        // Extract the different fields.
+        // The order of the fields may not be the same across different messages, 
+        // so the only way to know is through the "fields" array in the message itself.
         RNPointFieldMsg field_x = null, field_y = null, field_z = null,
             field_e = null, field_channel = null, field_detector = null;
         for (int i = 0; i < radiationMsg.fields.Length; i++)
@@ -87,6 +95,7 @@ public class RadiationMsgSubscriber : MonoBehaviour
             return;
         }
         
+        // Unpack the data array.
         int currStart = 0;
         float x, y, z, intensity;
         for (int i = 0; i < radiationMsg.width; i++, currStart += radiationMsg.point_step)
@@ -96,6 +105,8 @@ public class RadiationMsgSubscriber : MonoBehaviour
             z = System.BitConverter.ToSingle(radiationMsg.data, currStart + field_z.offset);
             intensity = conformToFloat(radiationMsg.data, currStart, field_e);
             visualizer.AddRadiationPoint(new Vector3(x, y, z), intensity);
+
+            // For debugging
             if (verbose > 0)
             {
                 Debug.Log(field_x.ToString() + "\n" + field_y.ToString() + "\n" + field_z.ToString() + "\n" + field_e.ToString());
@@ -112,6 +123,13 @@ public class RadiationMsgSubscriber : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Read data from a specific field in a packed byte array and convert it to a float.
+    /// </summary>
+    /// <param name="data">The packed data array.</param>
+    /// <param name="offset">The index of the beginning of the desired field.</param>
+    /// <param name="field">The description of that field.</param>
+    /// <returns>The value of the field as a float.</returns>
     private static float conformToFloat(byte[] data, int offset, RNPointFieldMsg field)
     {
         float x = float.NaN;

@@ -1,7 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
+/// <summary>
+/// A subclass of PointCloudVisulizer2 for visualizing live RNData.
+/// </summary>
 public class RNDataVisualizer : PointCloudVisualizer2
 {
     public float pointSize = 0.1f;
@@ -14,6 +15,11 @@ public class RNDataVisualizer : PointCloudVisualizer2
         SetShader("Particles/Standard Unlit");
     }
 
+    /// <summary>
+    /// Add a colored radiation point to the visulization.
+    /// </summary>
+    /// <param name="position">The position of the new point.</param>
+    /// <param name="radiationLevel">The radiation intensity associated with that point.</param>
     public void AddRadiationPoint(Vector3 position, float radiationLevel)
     {
         ParticleSystem.Particle p = new ParticleSystem.Particle();

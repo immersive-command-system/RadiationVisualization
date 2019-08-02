@@ -1,8 +1,14 @@
-﻿using PointCloud;
-using UnityEngine;
+﻿using UnityEngine;
 
+using PointCloud;
+
+/// <summary>
+/// A class for visualizing real-time point-cloud data, especially lidar data.
+/// Uses the CPU-based particle system (inherited from PointCloudVisualizer2).
+/// </summary>
 public class LidarVisualizer : PointCloudVisualizer2 {
 
+    /// <value> Attach DataServer object. If nonexistant, create an empty GameObject and attach the script `DataServer.cs`.</value>
     public bool flipYZ = false;
 
     // Use this for initialization
@@ -13,6 +19,10 @@ public class LidarVisualizer : PointCloudVisualizer2 {
         SetEmissionColor(new Color(0.25f, 0, 0, 0.5f));
     }
 
+    /// <summary>
+    /// Replace the current point cloud with a new point cloud.
+    /// </summary>
+    /// <param name="newCloud"></param>
     public void SetPointCloud(PointCloud<PointXYZIntensity> newCloud)
     {
         if (particles.Length < newCloud.Size)

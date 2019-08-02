@@ -1,17 +1,24 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+
 using UnityEngine;
 
+/// <summary>
+/// Manages receiving and storing spatial radiation data in an efficient way.
+/// </summary>
 public class RadiationPointSubscriber : PointCloudVisualizer2, DataServer.DataSubscriber
 {
+    /// <value> Attach DataServer object. If nonexistant, create an empty GameObject and attach the script `DataServer.cs`.</value>
     public DataServer server;
 
+    /// <value> Setting this to true will give a horizontal view of the data.</value>
     public bool flipYZ = false;
 
+    /// <value> The default size of each radiation voxel, if it is not specified in the data.</value>
     private float size = 1;
+    /// <value> The maximum radiation value. Used for deciding how to map the range of radiation values to colors.</value>
     private float max = 0.0007f;
 
-
+    /// <value> The octree for holding/organizing the radiation voxels efficiently.</value>
     private BoundsOctree<float> boundsTree = null;
 
     // Start is called before the first frame update
@@ -32,6 +39,13 @@ public class RadiationPointSubscriber : PointCloudVisualizer2, DataServer.DataSu
 
     }
 
+    /// <summary>
+    /// The callback for receiving data on the subscribed channel.
+    /// Parses and checks if message is corrupted.
+    /// Stores data ready for visualization.
+    /// </summary>
+    /// <param name="timestamp">The timestamp of the received message.</param>
+    /// <param name="message">The raw contents of the message.</param>
     public void OnReceiveMessage(float timestamp, string message)
     {
         string[] parts = message.Split(',');
@@ -62,6 +76,9 @@ public class RadiationPointSubscriber : PointCloudVisualizer2, DataServer.DataSu
         }
     }
 
+    /// <summary>
+    /// Search for the radiation voxels that a point belongs to.
+    /// </summary>
     private List<float> radiationVals = new List<float>();
     public Color GetRadiationColor(Vector3 point)
     {
@@ -79,10 +96,18 @@ public class RadiationPointSubscriber : PointCloudVisualizer2, DataServer.DataSu
         return c / radiationVals.Count;
     }
 
+    /// <summary>
+    /// A utility method for assigning a color to a radiation intensity.
+    /// </summary>
+    /// <param name="intensity">The intensity of the radiation of the point to be colored.</param>
+    /// <returns>The color that should be assigned to the point.</returns>
+    /// <remarks> Currently the coloring scale is pretty arbitrary.</remarks>
     private Color colorFromIntensity(float intensity)
     {
         float intensity_norm = Mathf.Min(Mathf.Abs(intensity), max) / max;
+        // We use 0.85 to prevent looping from red to red (since both 0 and 1 on the hue scale look like red).
         Color temp = Color.HSVToRGB(0.85f * (1 - intensity_norm), 1, 1);
+        // Use cubic scaling for alpha channel. We want points with low intensity to be deemphasized.
         return new Color(temp.r, temp.g, temp.b, intensity_norm * intensity_norm * intensity_norm);
     }
 }
