@@ -25,7 +25,6 @@ public class RadiationPointSubscriber : PointCloudVisualizer2, DataServer.DataSu
     void Start()
     {
         Initialize();
-
         SetShader("Particles/Standard Unlit");
 
         SetColor(new Color(1, 1, 1, 0.2f));
@@ -36,7 +35,6 @@ public class RadiationPointSubscriber : PointCloudVisualizer2, DataServer.DataSu
         Destroy(temp);
 
         server.RegisterDataSubscriber("Radiation", this);
-
     }
 
     /// <summary>
