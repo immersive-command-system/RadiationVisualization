@@ -21,6 +21,7 @@ public class RadiationPointSubscriber : PointCloudVisualizer2, DataServer.DataSu
     /// <value> The octree for holding/organizing the radiation voxels efficiently.</value>
     private BoundsOctree<float> boundsTree = null;
 
+    private bool finished = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -46,6 +47,10 @@ public class RadiationPointSubscriber : PointCloudVisualizer2, DataServer.DataSu
     /// <param name="message">The raw contents of the message.</param>
     public void OnReceiveMessage(float timestamp, string message)
     {
+        if (string.Compare(message.ToString(), "End of Radiation") == 0)
+        {
+            finished = true;
+        }
         string[] parts = message.Split(',');
         float x, y, z, intensity, size;
         if (parts.Length >= 4 && float.TryParse(parts[0], out x) &&
@@ -67,6 +72,7 @@ public class RadiationPointSubscriber : PointCloudVisualizer2, DataServer.DataSu
             // Adding the cube to the octree
             Vector3 bounds = new Vector3(this.size, this.size, this.size);
             boundsTree.Add(intensity, new Bounds(p.position, bounds));
+
 
         } else if (parts.Length == 1 && float.TryParse(parts[0], out size))
         {

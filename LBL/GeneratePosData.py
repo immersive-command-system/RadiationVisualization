@@ -56,5 +56,8 @@ if __name__ == "__main__":
         xyz = "Drone:" + str(pos_data[i][0]) + ":" + str(pos_data[i][1]) + "," + str(pos_data[i][2]) + "," + str(pos_data[i][3]) + "\n"
         print("Num: "  + str(i) + ": "+ xyz)
         s.send(xyz.encode())
+    xyz = "Drone:12345:End of PosData\n"
+    print(xyz)
+    s.send(xyz.encode())
     s.close()
     f.close()

@@ -15,6 +15,7 @@ public class CloudDataSubscriber : PointCloudVisualizer2, DataServer.DataSubscri
     /// <value> Debug field for  the number of messages this subscriber receives. </value>
     public int msgCount = 0;
 
+    private bool finished = false;
     /// <value> The subscriber script that is the data source for radiation-based colorization.</value>
     /// <remarks> If this field is null, the points take on a default color.</remarks>
     public RadiationPointSubscriber radiationDataSource = null;
@@ -48,7 +49,10 @@ public class CloudDataSubscriber : PointCloudVisualizer2, DataServer.DataSubscri
     public void OnReceiveMessage(float timestamp, string message)
     {
         msgCount++;
-
+        if (string.Compare(message.ToString(), "End of Cloud") == 0)
+        {
+            finished = true;
+        }
         string[] parts = message.Split(',');
         float x, y, z;
         if (parts.Length >= 3 && float.TryParse(parts[0], out x) && 

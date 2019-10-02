@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEditor;
 
 /// <summary>
 /// This file takes care of parsing messages about the Drone position that are received by the DataServer.
@@ -19,6 +20,8 @@ public class DronePositionSubscriber : MonoBehaviour, DataServer.DataSubscriber
     private Vector3 newPosition;
     /// <value> A flag that indicates whether there was new position since the last time it was reset to false.</value>
     private bool positionDidUpdate = false;
+
+    private bool finished = false;
 
     // Start is called before the first frame update
     void Start()
@@ -50,7 +53,11 @@ public class DronePositionSubscriber : MonoBehaviour, DataServer.DataSubscriber
     /// <param name="message">The raw contents of the message.</param>
     public void OnReceiveMessage(float timestamp, string message)
     {
-        Debug.Log("Drone Received: " + message);
+        if(string.Compare(message.ToString(),"End of PosData")==0)
+        {
+            finished = true;
+        }
+        // Debug.Log("Drone Received: " + message);
         string[] parts = message.Split(',');
         float x, y, z;
         if (parts.Length >= 3 && float.TryParse(parts[0], out x) && 
@@ -59,6 +66,7 @@ public class DronePositionSubscriber : MonoBehaviour, DataServer.DataSubscriber
             newPosition = (flipYZ) ? new Vector3(x, z, y) : new Vector3(x, y, z);
             positionDidUpdate = true;
         }
+
     }
 
     /* Update is called once per frame. If we see that we received a new xyz point for the data, we change the position. */
@@ -68,6 +76,11 @@ public class DronePositionSubscriber : MonoBehaviour, DataServer.DataSubscriber
         {
             positionDidUpdate = false;
             transform.position = newPosition;
+        }
+        if (finished)
+        {
+            PrefabUtility.SaveAsPrefabAsset(gameObject, "Assets/Prefabs/drone_path.prefab");
+            finished = false;
         }
     }
 }
