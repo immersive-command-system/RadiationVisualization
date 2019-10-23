@@ -34,7 +34,7 @@ Make sure to delete the old repo you had downloaded, and try cloning again.
 - **Drone**: Create one of the 'GameObjects/drone_model' from the Assets folder and attach `Scripts/Visualization/DronePositionSubscriber.cs` and drag the same 'DataServer' GameObject onto the 'Server' field.
 
 
-- **Radiation**: Create another empty GameObject and attach `Scripts/Visualization/DronePositionSubscriber.cs` and drag the same ‘DataServer’ GameObject onto the ‘Server’ field.
+- **Radiation**: Create another empty GameObject and attach `Scripts/Visualization/RadiationPositionSubscriber.cs` and drag the same ‘DataServer’ GameObject onto the ‘Server’ field.
 
 For both of the PointCloud and Drone object, check the "**Flip YZ**" on the script tab.
 
