@@ -1,8 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using SimpleJSON;
-using ROSBridgeLib.geometry_msgs;
+﻿using SimpleJSON;
 
 namespace ROSBridgeLib
 {
@@ -10,17 +6,17 @@ namespace ROSBridgeLib
     {
         public class SubmapCloudMsg
         {
-            public int submap_version;
-            public float resolution;
-            public bool finished;
-            public PointCloud2Msg cloud;
+            public int submap_version { get; private set; }
+            public float resolution { get; private set; }
+            public bool finished { get; private set; }
+            public PointCloud2Msg cloud { get; private set; }
 
             public SubmapCloudMsg(JSONNode node)
             {
-                this.submap_version = node["submap_version"].AsInt;
-                this.resolution = node["resolution"].AsFloat;
-                this.finished = node["finished"].AsBool;
-                this.cloud = new PointCloud2Msg(node["cloud"]);
+                submap_version = node["submap_version"].AsInt;
+                resolution = node["resolution"].AsFloat;
+                finished = node["finished"].AsBool;
+                cloud = new PointCloud2Msg(node["cloud"]);
             }
         }
     }

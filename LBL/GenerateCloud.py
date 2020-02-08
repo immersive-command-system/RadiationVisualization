@@ -51,5 +51,9 @@ if __name__ == "__main__":
         cloud = "Cloud:" + str(0) + ":" + str(cld_data[i][0]) + ", " + str(cld_data[i][1]) + ", " + str(cld_data[i][2]) + ", " + str(cld_data[i][3]) + "\n"
         print("Num: " + str(i) + "- " + cloud)
         s.send(cloud.encode())
+
+    cloud = "Cloud:12345:End of Cloud\n"
+    print(cloud)
+    s.send(cloud.encode())
     s.close()
     f.close()

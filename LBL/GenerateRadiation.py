@@ -64,5 +64,8 @@ if __name__ == "__main__":
                     rad = "Radiation:{}:{},{},{},{}\n".format(0,x,y,z,rad_data[i][j][k])
                     print(rad)
                     s.send(rad.encode())
+    rad = "Radiation:12345:End of Radiation\n"
+    print(rad)
+    s.send(rad.encode())
     s.close()
     f.close()

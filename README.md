@@ -40,6 +40,8 @@ For both of the PointCloud and Drone object, check the "**Flip YZ**" on the scri
 
 For the DataServer object, go to the "**Listen Ports**" and change the size to 3 and for each element, choose an arbitrary PORT number (e.g. 50007, 50008, 50009).
 
+Make sure you click the check box in the `Inspector` for each of the above GameObjects. 
+
 **Python scripts**
 Change the HOST and PORT accordingly in the scripts:
 
@@ -47,14 +49,28 @@ Change the HOST and PORT accordingly in the scripts:
 - **port_number**: Make sure the PORT numbers are the same as the ones that you wrote on the **DataServer** object.
 
 Press play on Unity, and then run the scripts in the folder ‘LBL’ on a command prompt with the commands,
+
+
+    python GeneratePosData.py --HOST <host_address> --PORT <ELEMENT0>
+    python GenerateRadiation.py --HOST <host_address> --PORT <ELEMENT2>
+    python GenerateCloud.py --HOST <host_address> --PORT <ELEMENT1>
+    
+    RUN GenerateRadiation.py before GenerateCloud.py
+
   
 
-    python GeneratePosData.py --HOST <host_address> --PORT <port_number>
-    python GenerateCloud.py --HOST <host_address> --PORT <port_number>
-    python GenerateRadiation.py --HOST <host_address> --PORT <port_number>
 
-  
 If the flags for HOST and PORT are not provided, the default values for HOST and PORT are `LOCALHOST` and `50007`/`50008`/`50009` respectively. 
-  
+
 Go back to Unity, and you’ll see the visualizations start.
+
+## Resources
+
+On Google Drive inside `ISAACS/Spring 2019/Radiation Visulization`. https://drive.google.com/open?id=18_KtS9UtNDZLGDmeRgFtmxaSC26-FbCR
+
+- `/camp_roberts`
+  - `/roberts_recon_in_bag` or `data.bag` contains the ros bag and the `h5` data. We will be extracting drone position, radiation data from `RunData.h5`. (Note this `RunData.h5` file is included in our git repo. No need to download and replace.)
+  - `/data.bag_points.ply` point cloud data
+
+- `/Dataset Information google doc` contains the information for the data inside `RunData.h5`. (Need to understand and read carefully.)
 
