@@ -62,7 +62,7 @@ if __name__ == "__main__":
                     y = j * pix_size + lower_lims[1]
                     z = k * pix_size + lower_lims[2]
                     rad = "Radiation:{}:{},{},{},{}\n".format(0,x,y,z,rad_data[i][j][k])
-                    print(rad)
+#                    print(rad)
                     s.send(rad.encode())
     rad = "Radiation:12345:End of Radiation\n"
     print(rad)

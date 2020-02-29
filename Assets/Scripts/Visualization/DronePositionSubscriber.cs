@@ -79,7 +79,7 @@ public class DronePositionSubscriber : MonoBehaviour, DataServer.DataSubscriber
         }
         if (finished)
         {
-            PrefabUtility.SaveAsPrefabAsset(gameObject, "Assets/Prefabs/drone_path.prefab");
+            //PrefabUtility.SaveAsPrefabAsset(gameObject, "Assets/Prefabs/drone_path.prefab");
             finished = false;
         }
     }

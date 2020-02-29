@@ -10,6 +10,14 @@ public class RadiationPointSubscriber : PointCloudVisualizer2, DataServer.DataSu
     /// <value> Attach DataServer object. If nonexistant, create an empty GameObject and attach the script `DataServer.cs`.</value>
     public DataServer server;
 
+    //Attaching simple game object for debugging purposes
+    public GameObject ball;
+    Renderer ballRenderer;
+    Material ballMaterial;
+    public bool dataReceived = false;
+
+    private int flag = 0;
+
     /// <value> Setting this to true will give a horizontal view of the data.</value>
     public bool flipYZ = false;
 
@@ -28,6 +36,11 @@ public class RadiationPointSubscriber : PointCloudVisualizer2, DataServer.DataSu
         Initialize();
         SetShader("Particles/Standard Unlit");
 
+        // Debugging with "ball" GameObject
+        //ballRenderer = ball.GetComponent<Renderer>();
+        //ballMaterial = ballRenderer.material;
+        // End Debugging with "ball" GameObject
+
         SetColor(new Color(1, 1, 1, 0.2f));
         SetEmissionColor(new Color(0, 0, 0, 0));
 
@@ -36,6 +49,22 @@ public class RadiationPointSubscriber : PointCloudVisualizer2, DataServer.DataSu
         Destroy(temp);
 
         server.RegisterDataSubscriber("Radiation", this);
+    }
+    void Update()
+    {
+        // Debugging with 'ball' GameObject
+        if (dataReceived)
+        {
+            //ball.GetComponent<Renderer>().material.color = Color.red;
+           // Destroy(ball);
+        }
+        else
+        {
+            //ball.GetComponent<Renderer>().material.color = Color.blue;
+        }
+
+        // End debugging with 'ball' GameObject
+        // End debugging with 'ball' GameObject
     }
 
     /// <summary>
@@ -47,6 +76,21 @@ public class RadiationPointSubscriber : PointCloudVisualizer2, DataServer.DataSu
     /// <param name="message">The raw contents of the message.</param>
     public void OnReceiveMessage(float timestamp, string message)
     {
+        // Debugging with 'ball' GameObject
+        //if (flag < 10)
+        //{
+        dataReceived = true;
+        //}
+        //else
+        //{
+        //    dataReceived = false;
+        //}
+        //flag += 1;
+        //flag = flag % 20;
+
+        // End debugging with 'ball' GameObject
+        // End debugging with 'ball' GameObject
+
         if (string.Compare(message.ToString(), "End of Radiation") == 0)
         {
             finished = true;
