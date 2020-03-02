@@ -25,6 +25,10 @@ public class DataServer : MonoBehaviour
 
     private int num_subscribe;
 
+    private string update_message1 = "default1";
+    private string update_message3 = "default2";
+    private float update_message2 = 5002.0f;
+
     /// <summary>
     /// Objects that wish to subscribe to data channels must implement the DataSubscriber interface.
     /// </summary>
@@ -168,6 +172,9 @@ public class DataServer : MonoBehaviour
 
     public void Update()
     {
+        //UIElemScript.edit(num_subscribe.ToString());
+        UIElemScript.edit(" " + update_message1 + /*update_message2.ToString() + */update_message3);
+
         if (flag == 1)
         {
             ball.GetComponent<Renderer>().material.color = Color.red;
@@ -188,6 +195,9 @@ public class DataServer : MonoBehaviour
         {
             ball.GetComponent<Renderer>().material.color = Color.white;
         }
+        else if (flag == 5)
+        {
+        }
         else
         {
             ball.GetComponent<Renderer>().material.color = Color.magenta;
@@ -195,7 +205,7 @@ public class DataServer : MonoBehaviour
 
         if (update_ui == 1)
         {
-            UIElemScript.edit(num_subscribe.ToString());
+            //UIElemScript.edit(num_subscribe.ToString());
         }
     }
     /// <summary>
@@ -236,7 +246,7 @@ public class DataServer : MonoBehaviour
     /// <param name="ar">The Tuple state object associated with this stream.</param>
     private void ReadMessages(IAsyncResult ar)
     {
-        flag = 2;
+        //flag = 0;
         Tuple<TcpClient, NetworkStream, byte[], ConcurrentQueue<string>, StringBuilder> state = 
             (Tuple<TcpClient, NetworkStream, byte[], ConcurrentQueue<string>, StringBuilder>)ar.AsyncState;
         NetworkStream stream = state.Item2;
@@ -333,10 +343,15 @@ public class DataServer : MonoBehaviour
         {
             if (parsedMessages.TryDequeue(out currMessage))
             {
-                flag = 2;
                 List<DataSubscriber> currSubscribers;
-                update_ui = 1;
                 num_subscribe = subscribers.Count;
+                update_ui = 1;
+                update_message1 = currMessage.Item1 + currMessage.Item3;
+                update_message2 = currMessage.Item2;
+                //update_message3 = currMessage.Item3;
+                update_message3 = "HELLO";
+                flag = 5; 
+                //flag = 2;
                 //UIElemScript.edit("Subrscribers found: " + subscribers.Count);
                 if (subscribers.TryGetValue(currMessage.Item1, out currSubscribers))
                 {
