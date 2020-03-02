@@ -1,11 +1,13 @@
 # Radiation Visualization
 ## How to Clone This Repository
+Ensure that you have an SSH key associated with your account as you will need that to clone submodules.
 
 In the terminal, run:
 
-`git clone --recurse-submodules -j8 https://github.com/jeshlee121/ISAACS-RadiationVisualization`
+`git clone --recurse-submodules -j8 https://github.com/immersive-command-system/RadiationVisualization`
 
 **In the case of** **“**[**Error: Permission denied (publickey)**](https://help.github.com/en/articles/error-permission-denied-publickey)**”**
+Please note that the Error is not specially highlighted so you may need to look closely.
 
 **For Windows:** 
 
@@ -34,7 +36,7 @@ Make sure to delete the old repo you had downloaded, and try cloning again.
 - **Drone**: Create one of the 'GameObjects/drone_model' from the Assets folder and attach `Scripts/Visualization/DronePositionSubscriber.cs` and drag the same 'DataServer' GameObject onto the 'Server' field.
 
 
-- **Radiation**: Create another empty GameObject and attach `Scripts/Visualization/DronePositionSubscriber.cs` and drag the same ‘DataServer’ GameObject onto the ‘Server’ field.
+- **Radiation**: Create another empty GameObject and attach `Scripts/Visualization/RadiationPositionSubscriber.cs` and drag the same ‘DataServer’ GameObject onto the ‘Server’ field.
 
 For both of the PointCloud and Drone object, check the "**Flip YZ**" on the script tab.
 
