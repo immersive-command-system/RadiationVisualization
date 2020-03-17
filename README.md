@@ -57,7 +57,7 @@ Press play on Unity, and then run the scripts in the folder ‘LBL’ on a comma
     python GenerateRadiation.py --HOST <host_address> --PORT <ELEMENT2>
     python GenerateCloud.py --HOST <host_address> --PORT <ELEMENT1>
     
-    RUN GenerateRadiation.py before GenerateCloud.py
+    #RUN GenerateRadiation.py before GenerateCloud.py
 
   
 
