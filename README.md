@@ -52,14 +52,11 @@ Change the HOST and PORT accordingly in the scripts:
 
 Press play on Unity, and then run the scripts in the folder ‘LBL’ on a command prompt with the commands,
 
-
-    python GeneratePosData.py --HOST <host_address> --PORT <ELEMENT0>
-    python GenerateRadiation.py --HOST <host_address> --PORT <ELEMENT2>
-    python GenerateCloud.py --HOST <host_address> --PORT <ELEMENT1>
+    python GeneratePosData.py --HOST <host_address> --PORT <port_number ELEMENT0>
+    python GenerateRadiation.py --HOST <host_address> --PORT <port_number ELEMENT2>
+    python GenerateCloud.py --HOST <host_address> --PORT <port_number ELEMENT1>
     
     #RUN GenerateRadiation.py before GenerateCloud.py
-
-  
 
 
 If the flags for HOST and PORT are not provided, the default values for HOST and PORT are `LOCALHOST` and `50007`/`50008`/`50009` respectively. 
