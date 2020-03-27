@@ -6,7 +6,7 @@ In the terminal, run:
 
 `git clone --recurse-submodules -j8 https://github.com/immersive-command-system/RadiationVisualization`
 
-If you forget to clone recursively, you can run `git submodule update --init`
+If you forget to clone recursively, you can run `git submodule update --init --recursive`
 
 **In the case of** **“**[**Error: Permission denied (publickey)**](https://help.github.com/en/articles/error-permission-denied-publickey)**”**
 Please note that the Error is not specially highlighted so you may need to look closely.
