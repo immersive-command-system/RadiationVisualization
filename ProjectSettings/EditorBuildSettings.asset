@@ -8,4 +8,7 @@ EditorBuildSettings:
   - enabled: 0
     path: 
     guid: 00000000000000000000000000000000
+  - enabled: 1
+    path: Assets/Scenes/RosBridge_hololens.unity
+    guid: 80832861f71510b47bd085ed376b47f7
   m_configObjects: {}
