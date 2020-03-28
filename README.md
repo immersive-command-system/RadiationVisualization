@@ -58,10 +58,9 @@ Press play on Unity, and then run the scripts in the folder ‘LBL’ on a comma
     python GenerateRadiation.py --HOST <host_address> --PORT <port_number ELEMENT2>
     python GenerateCloud.py --HOST <host_address> --PORT <port_number ELEMENT1>
     
-    #RUN GenerateRadiation.py before GenerateCloud.py
+**RUN GenerateRadiation.py before GenerateCloud.py**
 
-
-If the flags for HOST and PORT are not provided, the default values for HOST and PORT are `LOCALHOST` and `50007`/`50008`/`50009` respectively. 
+If the flags for HOST and PORT are not provided, the default values for HOST and PORT are `LOCALHOST` and `50007`/`50008`/`50009` respectively. If you are using these defaults, you can alternatively run `make generate -j2` to run Position and Radiaiton simultaneously then Cloud after Position is complete.
 
 Go back to Unity, and you’ll see the visualizations start.
 
