@@ -23,6 +23,19 @@ Use the command `ssh-keygen -t rsa` to generate the keys and `ssh-add /path/to/m
 Now follow this [link](https://help.github.com/en/articles/adding-a-new-ssh-key-to-your-github-account) to add a new SSH key to your GitHub account. 
 Make sure to delete the old repo you had downloaded, and try cloning again.
 
+## Using ROSBridge
+
+Install [ROS](http://wiki.ros.org/melodic/Installation/Debian) and [ROSBridge-suite](http://wiki.ros.org/rosbridge_suite/Tutorials/RunningRosbridge).
+
+In the terminal, run:
+`roscore`
+
+In another terminal, run:
+`roslaunch rosbridge_server rosbridge_websocket.launch`
+
+You can now access a json stream of data from port 9090 through the websocket interface.
+
+Sample LAMP bag can be found [here](https://drive.google.com/file/d/1Vb4Heq2FtjIED0b3o-n2PA6WCDHOH-i3/view).
 
 ## How to Use the Python Scripts in ‘LBL’ Folder (HD5 Data Over Network)
 
