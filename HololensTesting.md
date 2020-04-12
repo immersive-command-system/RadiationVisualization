@@ -35,6 +35,11 @@
 `roscore`
 1. In another terminal, run:
 `roslaunch rosbridge_server rosbridge_websocket.launch`
+1. Update your server's ip address.
+    - Get the ip with `hostname -I` or `ipconfig`
+    - Set the `Ip` field in the `Rosbridge Connection` object in the ScanningHololensDemo scene with the ip address you just found.
+4. Play the rosbag: `rosbag play out.bag`
+1. Play within the Unity Editor just to make sure it works.
 1. Build the *ScanningHololensDemo Scene* to the Hololens.
 4. Play the rosbag: `rosbag play out.bag`
 6. Launch the app on the Hololens if not already.
