@@ -37,6 +37,8 @@ You can now access a json stream of data from port 9090 through the websocket in
 
 Sample LAMP bag can be found [here](https://drive.google.com/file/d/1Vb4Heq2FtjIED0b3o-n2PA6WCDHOH-i3/view).
 
+Note that ROSBridge only has a linux install at the moment. Please use a Linux VM or use Windows Subsystem for Linux.
+
 ## How to Use the Python Scripts in ‘LBL’ Folder (HD5 Data Over Network)
 
 **Unity Side -** An example of this has been created and saved in “Scenes/Visualization.unity”.
