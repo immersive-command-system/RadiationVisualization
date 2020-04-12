@@ -10,7 +10,10 @@
         - Universal Winodws Platform development
         - Game development with Unity 
 1. Set up Hololens in developer mode.
-
+1. Install ROS and the ROSBridge-suite.
+    - sudo apt install `ros-melodic-desktop`
+    - sudo apt install `ros-melodic-rosbridge-suite`
+    
 ## Settings
 1. Go to Build Settings and select Windows Universal Platform.
     - Target Device: HoloLens
