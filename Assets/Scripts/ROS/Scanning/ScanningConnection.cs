@@ -7,6 +7,7 @@ using UnityEngine.Networking;
 public class ScanningConnection : MonoBehaviour {
 
     private ROSBridgeWebSocketConnection ros = null;
+    public string ip;
 
     // Use this for initialization
     void Start () {
@@ -16,7 +17,8 @@ public class ScanningConnection : MonoBehaviour {
         //ros = new ROSBridgeWebSocketConnection("ws://192.168.1.102", 9090);
         Debug.Log(System.Net.NetworkInformation.NetworkInterface.GetIsNetworkAvailable());
         Debug.Log(IPManager.GetLocalIPAddress());
-        ros = new ROSBridgeWebSocketConnection("ws://192.168.107.113", 9090);
+        //ros = new ROSBridgeWebSocketConnection("ws://192.168.107.113", 9090);
+        ros = new ROSBridgeWebSocketConnection("ws://"+ip, 9090);
         ros.AddSubscriber(typeof(PointCloud2Subscriber));
 
         ros.Connect();

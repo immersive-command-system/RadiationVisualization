@@ -303,6 +303,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b82ab95e44f93954780d685a90605476, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ip: 192.168.107.113
 --- !u!4 &888533926
 Transform:
   m_ObjectHideFlags: 0
