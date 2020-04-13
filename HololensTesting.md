@@ -19,7 +19,8 @@ Official Windows installation instructions are [here](https://docs.microsoft.com
     - Target Device: HoloLens
     - Architecture: x86
     - Build Type: D3D
-1. Go to Player Settings > XR Settings > Virtual Reality Supported: Enable
+1. Go to launch Player Settings: Build Settings > Player Settings:
+    - Under XR Settings > Virtual Reality Supported: Enable
 
 ## Build
 1. Build
