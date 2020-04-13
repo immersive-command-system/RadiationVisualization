@@ -1,13 +1,13 @@
-
+Official Windows installation instructions are [here](https://docs.microsoft.com/en-us/windows/mixed-reality/using-visual-studio#deploying-an-app-over-usb---hololens-1st-gen).
 ## Installation
 1. Please follow the instructions in the [README](README.md) to clone this repository.
 1. Install Unity. Currently tested on Unity 18 LTS, however any version of Unity should work.
 1. Install Visual Studio. Currently tested on VS 2019.
-    - Enable the following modules:
+    - Enable the following modules (* marks HoloLens Deploy Dependencies):
         - Python
         - .NET
-        - C++
-        - Universal Winodws Platform development
+        - Desktop C++ *
+        - Universal Winodws Platform development *
         - Game development with Unity 
 1. Set up Hololens in developer mode.
 1. Install ROS and the ROSBridge-suite.
@@ -26,7 +26,7 @@
     - I recommend that you build into the Build folder so it is neater.
 1. Launch RadiationVisualization.sln (can be found inside the folder you built in).
 1. Connect your Hololens
-1. Deploy to local device.
+1. Deploy to device.
 
 ## Testing ROSBridge
 1. Download a rosbag of precollected data: 
