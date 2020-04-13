@@ -2,20 +2,20 @@ Official Windows installation instructions are [here](https://docs.microsoft.com
 ## Installation
 1. Please follow the instructions in the [README](README.md) to clone this repository.
 1. Install Unity. Currently tested on Unity 18 LTS, however any version of Unity should work.
-1. Install Visual Studio. Currently tested on VS 2019.
+1. Install Visual Studio. Currently developed on VS 2019. Testing has also passed VS 2017. (Anything older is incapable of deploying to HoloLens.)
     - Enable the following modules (* marks HoloLens Deploy Dependencies):
         - Python
         - .NET
         - Desktop C++ *
         - Universal Winodws Platform development *
-        - Game development with Unity 
+        - Game development with Unity
 1. Set up Hololens in developer mode.
 1. Install ROS and the ROSBridge-suite.
     - sudo apt install `ros-melodic-desktop`
     - sudo apt install `ros-melodic-rosbridge-suite`
     
 ## Settings
-1. Go to Build Settings and select Windows Universal Platform.
+1. Go to Build Settings and select Windows Universal Platform. (If no such setting, there should be a button that says install Universal Windows Platform module.)
     - Target Device: HoloLens
     - Architecture: x86
     - Build Type: D3D
