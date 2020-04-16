@@ -1,5 +1,5 @@
 Official Windows installation instructions are [here](https://docs.microsoft.com/en-us/windows/mixed-reality/using-visual-studio#deploying-an-app-over-usb---hololens-1st-gen).
-## Installation
+## Hololens Installation
 1. Please follow the instructions in the [README](README.md) to clone this repository.
 1. Install Unity. Currently tested on Unity 18 LTS, however any version of Unity should work.
 1. Install Visual Studio. Currently developed on VS 2019. Testing has also passed VS 2017 (Note that the modules. (Anything older is incapable of deploying to HoloLens.)
@@ -10,6 +10,8 @@ Official Windows installation instructions are [here](https://docs.microsoft.com
         - Universal Winodws Platform development *
         - Game development with Unity
 1. Set up Hololens in developer mode.
+
+## Server Installation
 1. Install ROS and the ROSBridge-suite.
     - sudo apt install `ros-melodic-desktop`
     - sudo apt install `ros-melodic-rosbridge-suite`
@@ -33,20 +35,25 @@ Official Windows installation instructions are [here](https://docs.microsoft.com
         - To see this option you may need to [pair your HoloLens](https://docs.microsoft.com/en-us/windows/mixed-reality/using-visual-studio#pairing-your-device) if you have not already.
 
 
-## Testing ROSBridge
+## Testing ROSBridge Server
 1. Download a rosbag of precollected data: 
     - Sample LAMP bag can be found [here](https://drive.google.com/file/d/1Vb4Heq2FtjIED0b3o-n2PA6WCDHOH-i3/view).
 1. In the terminal, run:
 `roscore`
 1. In another terminal, run:
 `roslaunch rosbridge_server rosbridge_websocket.launch`
+4. Play the rosbag: `rosbag play out.bag`
+
+
+## Testing ROSBridge Hololens
 1. Update your server's ip address.
     - Get the ip with `hostname -I` or `ipconfig`
     - Set the `Ip` field in the `Rosbridge Connection` object in the ScanningHololensDemo scene with the ip address you just found.
-4. Play the rosbag: `rosbag play out.bag`
+    - You may need to set up port forwarding if the two devices are not in the same network.
 1. Play within the Unity Editor just to make sure it works.
+4. On the server, play the rosbag: `rosbag play out.bag`
 1. Build the *ScanningHololensDemo Scene* to the Hololens.
-4. Play the rosbag: `rosbag play out.bag`
+4. On the server, play the rosbag: `rosbag play out.bag`
 6. Launch the app on the Hololens if not already.
     - You should see flashes of white flying at you out from the drone model.
     - Don't panic, this is good news. I think.
