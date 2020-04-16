@@ -1,32 +1,37 @@
-
+Official Windows installation instructions are [here](https://docs.microsoft.com/en-us/windows/mixed-reality/using-visual-studio#deploying-an-app-over-usb---hololens-1st-gen).
 ## Installation
 1. Please follow the instructions in the [README](README.md) to clone this repository.
 1. Install Unity. Currently tested on Unity 18 LTS, however any version of Unity should work.
-1. Install Visual Studio. Currently tested on VS 2019.
-    - Enable the following modules:
+1. Install Visual Studio. Currently developed on VS 2019. Testing has also passed VS 2017 (Note that the modules. (Anything older is incapable of deploying to HoloLens.)
+    - Enable the following modules (* marks HoloLens Deploy Dependencies):
         - Python
         - .NET
-        - C++
-        - Universal Winodws Platform development
-        - Game development with Unity 
+        - Desktop C++ *
+        - Universal Winodws Platform development *
+        - Game development with Unity
 1. Set up Hololens in developer mode.
 1. Install ROS and the ROSBridge-suite.
     - sudo apt install `ros-melodic-desktop`
     - sudo apt install `ros-melodic-rosbridge-suite`
     
 ## Settings
-1. Go to Build Settings and select Windows Universal Platform.
+1. Go to Build Settings and select Windows Universal Platform. (If no such setting, there should be a button that says install Universal Windows Platform module.)
     - Target Device: HoloLens
     - Architecture: x86
     - Build Type: D3D
-1. Go to Player Settings > XR Settings > Virtual Reality Supported: Enable
+1. Go to launch Player Settings: Build Settings > Player Settings:
+    - Under XR Settings > Virtual Reality Supported: Enable
 
 ## Build
 1. Build
     - I recommend that you build into the Build folder so it is neater.
 1. Launch RadiationVisualization.sln (can be found inside the folder you built in).
 1. Connect your Hololens
-1. Deploy to local device.
+1. [Deploy](https://docs.microsoft.com/en-us/windows/mixed-reality/using-visual-studio#deploying-an-app-over-usb---hololens-1st-gen) to device.
+    - Select `x86` as the build configuration.
+    - Select `Device` as the target.
+        - To see this option you may need to [pair your HoloLens](https://docs.microsoft.com/en-us/windows/mixed-reality/using-visual-studio#pairing-your-device) if you have not already.
+
 
 ## Testing ROSBridge
 1. Download a rosbag of precollected data: 
