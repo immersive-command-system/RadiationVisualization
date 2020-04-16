@@ -7,18 +7,22 @@ using UnityEngine.Networking;
 public class ScanningConnection : MonoBehaviour {
 
     private ROSBridgeWebSocketConnection ros = null;
+
+    // ROSBridge Server IP address to connect to.
     public string ip;
 
     // Use this for initialization
     void Start () {
-        // TODO: Understand this line
         Debug.Log("Starting Scanning Connection...");
-        //ros = new ROSBridgeWebSocketConnection("ws://128.32.43.94", 9090);
-        //ros = new ROSBridgeWebSocketConnection("ws://192.168.1.102", 9090);
+
+        // Debug Log to get Client's local IP.
         Debug.Log(System.Net.NetworkInformation.NetworkInterface.GetIsNetworkAvailable());
         Debug.Log(IPManager.GetLocalIPAddress());
-        //ros = new ROSBridgeWebSocketConnection("ws://192.168.107.113", 9090);
+
+        // Connects to the specified IP address at port 9090.
         ros = new ROSBridgeWebSocketConnection("ws://"+ip, 9090);
+        
+        // Adds the LiDAR point cloud subscriber.
         ros.AddSubscriber(typeof(PointCloud2Subscriber));
 
         ros.Connect();
@@ -39,6 +43,7 @@ public class ScanningConnection : MonoBehaviour {
         ros.Render();
     }
 
+    // Tool to get your local ip address.
     public static class IPManager
     {
         public static string GetLocalIPAddress()
