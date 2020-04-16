@@ -1,7 +1,7 @@
 Official Windows installation instructions are [here](https://docs.microsoft.com/en-us/windows/mixed-reality/using-visual-studio#deploying-an-app-over-usb---hololens-1st-gen).
 ## Hololens Installation
 1. Please follow the instructions in the [README](README.md) to clone this repository.
-1. Install Unity. Currently tested on Unity 18 LTS, however any version of Unity should work.
+1. Install Unity. Currently tested on Unity 18 LTS, however any version of Unity should work (update 2019.3.6 does not appepar to work at the moment).
 1. Install Visual Studio. Currently developed on VS 2019. Testing has also passed VS 2017 (Note that the modules. (Anything older is incapable of deploying to HoloLens.)
     - Enable the following modules (* marks HoloLens Deploy Dependencies):
         - Python
