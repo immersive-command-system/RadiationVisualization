@@ -273,7 +273,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   initialParticleCount: 20000
   updateInterval: 2
-  flipYZ: 0
+  flipYZ: 1
 --- !u!1 &888533924
 GameObject:
   m_ObjectHideFlags: 0

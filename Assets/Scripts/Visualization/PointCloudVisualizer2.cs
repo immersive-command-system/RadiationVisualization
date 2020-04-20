@@ -56,8 +56,8 @@ public class PointCloudVisualizer2 : MonoBehaviour
     private bool initialized = false;
 
     /// <value> The name of the shader to use for each particle.</value>
-    private string shader = "Standard";
-
+    //private string shader = "Standard";
+    private string shader = "Particles/Standard Unlit";
     /// <summary>
     /// Do initialization work on the particle system. Configure it for displaying static point cloud data.
     /// This involves turning off a lot of its animation componenents and setting the materials/shaders.

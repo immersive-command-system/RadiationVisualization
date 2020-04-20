@@ -15,8 +15,9 @@ public class LidarVisualizer : PointCloudVisualizer2 {
     void Start () {
         Initialize();
 
-        SetColor(new Color(1, 0, 0, 0.5f));
-        SetEmissionColor(new Color(0.25f, 0, 0, 0.5f));
+//        Use if you want the same color across all of your points.
+//        SetColor(new Color(0, 1, 0, 1.0f));
+//        SetEmissionColor(new Color(0.0f, 1, 0, 1.0f));
     }
 
     /// <summary>
@@ -36,12 +37,27 @@ public class LidarVisualizer : PointCloudVisualizer2 {
             }
         }
         int ind = 0;
+        float max = 0;
+        float min = 1; 
         foreach (PointXYZIntensity point in newCloud.Points)
         {
             particles[ind].position = (flipYZ) ? new Vector3(point.X, point.Z, point.Y) : new Vector3(point.X, point.Y, point.Z);
-            particles[ind].startSize = 0.1f;
+            particles[ind].startSize = 0.05f;
+            
+//          Set the point's color with respect to its intensity. Higher intensity = solid point.            
+// TODO: Make a better representation than alpha value.
+            particles[ind].startColor = new Color(point.intensity,0,1-point.intensity,1);
+            if (point.intensity > max) {
+                max = point.intensity;
+            }
+            if (point.intensity < min) {
+                min = point.intensity;
+            }
             ind += 1;
         }
+
+        Debug.Log("max: "+ max);
+        Debug.Log("min: " + min);
         particle_count = newCloud.Size;
         cloud.SetParticles(particles, particle_count);
         OnParticlesUpdated();

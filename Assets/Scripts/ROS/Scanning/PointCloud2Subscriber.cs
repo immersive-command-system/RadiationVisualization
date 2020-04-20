@@ -12,7 +12,9 @@ public class PointCloud2Subscriber : ROSBridgeSubscriber
 
     public new static string GetMessageTopic()
     {
-        return "velodyne/velodyne_points";
+        return "/voxblox_node/surface_pointcloud";
+//        return "velodyne/velodyne_points";
+
     }
 
     public new static string GetMessageType()
