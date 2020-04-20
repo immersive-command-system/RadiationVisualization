@@ -3,6 +3,7 @@ using SimpleJSON;
 using System.Text;
 using UnityEngine;
 
+// ROSBridgeSubscriber for the LiDAR data. Parses the data and sends it to the LidarVisualizer attached to the drone.
 public class PointCloud2Subscriber : ROSBridgeSubscriber
 {
     public static string rendererObjectName = "drone_model";
