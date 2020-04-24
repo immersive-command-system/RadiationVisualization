@@ -57,3 +57,4 @@ Official Windows installation instructions are [here](https://docs.microsoft.com
 6. Launch the app on the Hololens if not already.
     - You should see flashes of white flying at you out from the drone model.
     - Don't panic, this is good news. I think.
+7. Hololens view looks like red-squares.
