@@ -55,6 +55,7 @@ public class PointCloudVisualizer : MonoBehaviour
             childPoint.transform.position = (flipYZ) ? new Vector3(point.X, point.Z, point.Y) : new Vector3(point.X, point.Y, point.Z);
             childPoint.transform.parent = cloudParent.transform;
             // TODO color by intensity
+            // Use point.intensity
             
         }
 
