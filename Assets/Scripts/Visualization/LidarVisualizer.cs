@@ -37,8 +37,6 @@ public class LidarVisualizer : PointCloudVisualizer2 {
             }
         }
         int ind = 0;
-        float max = 0;
-        float min = 1; 
         foreach (PointXYZIntensity point in newCloud.Points)
         {
             particles[ind].position = (flipYZ) ? new Vector3(point.X, point.Z, point.Y) : new Vector3(point.X, point.Y, point.Z);
@@ -47,17 +45,9 @@ public class LidarVisualizer : PointCloudVisualizer2 {
 //          Set the point's color with respect to its intensity. Higher intensity = solid point.            
 // TODO: Make a better representation than alpha value.
             particles[ind].startColor = new Color(point.intensity,0,1-point.intensity,1);
-            if (point.intensity > max) {
-                max = point.intensity;
-            }
-            if (point.intensity < min) {
-                min = point.intensity;
-            }
             ind += 1;
         }
 
-        Debug.Log("max: "+ max);
-        Debug.Log("min: " + min);
         particle_count = newCloud.Size;
         cloud.SetParticles(particles, particle_count);
         OnParticlesUpdated();

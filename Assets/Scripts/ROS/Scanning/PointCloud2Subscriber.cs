@@ -40,7 +40,8 @@ public class PointCloud2Subscriber : ROSBridgeSubscriber
             Debug.Log(sb.ToString());
         }
 
-        LidarVisualizer visualizer = GameObject.Find(rendererObjectName).GetComponent<LidarVisualizer>();
+        PointCloudVisualizer visualizer = GameObject.Find(rendererObjectName).GetComponent<PointCloudVisualizer>();
         visualizer.SetPointCloud(pointCloudMsg.GetCloud());
+        Debug.Log("Updated Point Cloud");
     }
 }
