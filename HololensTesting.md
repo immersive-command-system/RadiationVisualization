@@ -12,12 +12,15 @@ Official Windows installation instructions are [here](https://docs.microsoft.com
 1. Set up Hololens in developer mode.
 
 ## Server Installation
-1. Install ROS and the ROSBridge-suite.
-    - sudo apt install `ros-melodic-desktop`
-    - sudo apt install `ros-melodic-rosbridge-suite`
-2. Setup ROS
+1. [Install ROS](http://wiki.ros.org/melodic/Installation/Ubuntu).
+    - `sudo apt install ros-melodic-desktop`
     - `echo "source /opt/ros/melodic/setup.bash" >> ~/.bashrc`
     - `source ~/.bashrc`
+    - `sudo apt install python-rosdep python-rosinstall python-rosinstall-generator python-wstool build-essential`
+    - `sudo rosdep init`
+    - `rosdep update`
+1. Install ROSBridge-suite.
+    - `sudo apt install ros-melodic-rosbridge-suite`
     
 ## Settings
 1. Go to Build Settings and select Windows Universal Platform. (If no such setting, there should be a button that says install Universal Windows Platform module.)
