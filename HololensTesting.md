@@ -15,6 +15,9 @@ Official Windows installation instructions are [here](https://docs.microsoft.com
 1. Install ROS and the ROSBridge-suite.
     - sudo apt install `ros-melodic-desktop`
     - sudo apt install `ros-melodic-rosbridge-suite`
+2. Setup ROS
+    - `echo "source /opt/ros/melodic/setup.bash" >> ~/.bashrc`
+    - `source ~/.bashrc`
     
 ## Settings
 1. Go to Build Settings and select Windows Universal Platform. (If no such setting, there should be a button that says install Universal Windows Platform module.)
