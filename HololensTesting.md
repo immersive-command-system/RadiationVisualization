@@ -21,6 +21,7 @@ Official Windows installation instructions are [here](https://docs.microsoft.com
     - `rosdep update`
 1. Install ROSBridge-suite.
     - `sudo apt install ros-melodic-rosbridge-suite`
+    - `rosdep install rosbridge-server`
     
 ## Settings
 1. Go to Build Settings and select Windows Universal Platform. (If no such setting, there should be a button that says install Universal Windows Platform module.)
