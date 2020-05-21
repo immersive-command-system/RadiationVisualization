@@ -17,7 +17,7 @@ Official Windows installation instructions are [here](https://docs.microsoft.com
     - `echo "source /opt/ros/melodic/setup.bash" >> ~/.bashrc`
     - `source ~/.bashrc`
     - `sudo apt install python-rosdep python-rosinstall python-rosinstall-generator python-wstool build-essential`
-    - `sudo rosdep init`
+    - `rosdep init`
     - `rosdep update`
 1. Install ROSBridge-suite.
     - `sudo apt install ros-melodic-rosbridge-suite`
