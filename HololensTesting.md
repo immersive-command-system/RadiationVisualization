@@ -22,6 +22,9 @@ Official Windows installation instructions are [here](https://docs.microsoft.com
 1. Install ROSBridge-suite.
     - `sudo apt install ros-melodic-rosbridge-suite`
     - `rosdep install rosbridge-server`
+1. Install custom messages. Remember to add them to your .bashrc file.
+    - VoxBlox Messages: https://voxblox.readthedocs.io/en/latest/pages/Installation.html
+    - PCFace Messages: To come
     
 ## Settings
 1. Go to Build Settings and select Windows Universal Platform. (If no such setting, there should be a button that says install Universal Windows Platform module.)
