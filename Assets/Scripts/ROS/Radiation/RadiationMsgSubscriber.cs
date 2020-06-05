@@ -1,9 +1,8 @@
 ﻿using ROSBridgeLib;
-using SimpleJSON;
 using System.Text;
 using UnityEngine;
 
-public class RadiationMsgSubscriber : ROSBridgeSubscriber
+public class RadiationMsgSubscriber : MonoBehaviour
 {
 
     private static string radiationFieldName = "E";
@@ -11,26 +10,39 @@ public class RadiationMsgSubscriber : ROSBridgeSubscriber
     private static string positionYFieldName = "y";
     private static string positionZFieldName = "z";
 
-    private static int verbose = 2;
 
-    public new static string GetMessageTopic()
+    public RadiationConnection data_source = null;
+    public RNDataVisualizer visualizer = null;
+    public static int verbose = 2;
+    
+
+    void Update()
     {
-        return "interaction_data";
+        if (visualizer == null)
+        {
+            visualizer = GetComponent<RNDataVisualizer>();
+            if (visualizer == null)
+            {
+                visualizer = gameObject.AddComponent<RNDataVisualizer>();
+            }
+        }
+        if (data_source == null)
+        {
+            data_source = GetComponent<RadiationConnection>();
+            if (data_source != null)
+            {
+                data_source.AddSubscriber(HandleRNDMsg);
+            }
+        }
     }
 
-    public new static string GetMessageType()
+    /// <summary>
+    /// A callback method for receiving new radiation data messages.
+    /// </summary>
+    /// <param name="radiationMsg">The new radiation data message.</param>
+    public void HandleRNDMsg(in RNDataMsg radiationMsg)
     {
-        return "rntools/RNData";
-    }
-
-    public new static ROSBridgeMsg ParseMessage(JSONNode msg)
-    {
-        return new RNDataMsg(msg);
-    }
-
-    public new static void CallBack(ROSBridgeMsg msg)
-    {
-        RNDataMsg radiationMsg = (RNDataMsg)msg;
+        // For debug
         if (verbose > 1)
         {
             StringBuilder sb = new StringBuilder();
@@ -51,6 +63,9 @@ public class RadiationMsgSubscriber : ROSBridgeSubscriber
             Debug.Log(sb.ToString());
         }
 
+        // Extract the different fields.
+        // The order of the fields may not be the same across different messages, 
+        // so the only way to know is through the "fields" array in the message itself.
         RNPointFieldMsg field_x = null, field_y = null, field_z = null,
             field_e = null, field_channel = null, field_detector = null;
         for (int i = 0; i < radiationMsg.fields.Length; i++)
@@ -79,21 +94,19 @@ public class RadiationMsgSubscriber : ROSBridgeSubscriber
         {
             return;
         }
-
-        RNDataVisualizer visualizer = GameObject.Find("LiveRadiation").GetComponent<RNDataVisualizer>();
-
+        
+        // Unpack the data array.
         int currStart = 0;
         float x, y, z, intensity;
         for (int i = 0; i < radiationMsg.width; i++, currStart += radiationMsg.point_step)
         {
-            //x = conformToFloat(radiationMsg.data, currStart, field_x);
-            //y = conformToFloat(radiationMsg.data, currStart, field_y);
-            //z = conformToFloat(radiationMsg.data, currStart, field_z);
             x = System.BitConverter.ToSingle(radiationMsg.data, currStart + field_x.offset);
             y = System.BitConverter.ToSingle(radiationMsg.data, currStart + field_y.offset);
             z = System.BitConverter.ToSingle(radiationMsg.data, currStart + field_z.offset);
             intensity = conformToFloat(radiationMsg.data, currStart, field_e);
             visualizer.AddRadiationPoint(new Vector3(x, y, z), intensity);
+
+            // For debugging
             if (verbose > 0)
             {
                 Debug.Log(field_x.ToString() + "\n" + field_y.ToString() + "\n" + field_z.ToString() + "\n" + field_e.ToString());
@@ -110,6 +123,13 @@ public class RadiationMsgSubscriber : ROSBridgeSubscriber
         }
     }
 
+    /// <summary>
+    /// Read data from a specific field in a packed byte array and convert it to a float.
+    /// </summary>
+    /// <param name="data">The packed data array.</param>
+    /// <param name="offset">The index of the beginning of the desired field.</param>
+    /// <param name="field">The description of that field.</param>
+    /// <returns>The value of the field as a float.</returns>
     private static float conformToFloat(byte[] data, int offset, RNPointFieldMsg field)
     {
         float x = float.NaN;

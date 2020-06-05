@@ -3,6 +3,7 @@ using SimpleJSON;
 using System.Text;
 using UnityEngine;
 
+// ROSBridgeSubscriber for the LiDAR data. Parses the data and sends it to the LidarVisualizer attached to the drone.
 public class PointCloud2Subscriber : ROSBridgeSubscriber
 {
     public static string rendererObjectName = "drone_model";
@@ -11,7 +12,9 @@ public class PointCloud2Subscriber : ROSBridgeSubscriber
 
     public new static string GetMessageTopic()
     {
-        return "velodyne/velodyne_points";
+        return "/voxblox_node/surface_pointcloud";
+//        return "velodyne/velodyne_points";
+
     }
 
     public new static string GetMessageType()
@@ -37,7 +40,8 @@ public class PointCloud2Subscriber : ROSBridgeSubscriber
             Debug.Log(sb.ToString());
         }
 
-        LidarVisualizer visualizer = GameObject.Find(rendererObjectName).GetComponent<LidarVisualizer>();
+        PointCloudVisualizer visualizer = GameObject.Find(rendererObjectName).GetComponent<PointCloudVisualizer>();
         visualizer.SetPointCloud(pointCloudMsg.GetCloud());
+        Debug.Log("Updated Point Cloud");
     }
 }

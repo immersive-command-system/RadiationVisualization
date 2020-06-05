@@ -1,6 +1,10 @@
-﻿using PointCloud;
-using UnityEngine;
+﻿using UnityEngine;
 
+using PointCloud;
+
+/// <summary>
+/// A PointCloudVisulizer subclass for visualizing PointClouds, especially SLAM submaps.
+/// </summary>
 public class SubmapVisualizer : PointCloudVisualizer2
 {
     private PointCloud<PointXYZIntensity> pending_cloud = null;
@@ -19,6 +23,7 @@ public class SubmapVisualizer : PointCloudVisualizer2
             pending_cloud = null;
         }
 
+        // Set update mode to timed since sometimes it won't update if only refreshed once.
         SetUpdateMode(UpdateMode.TIMED);
 
         GameObject temp = GameObject.CreatePrimitive(PrimitiveType.Cube);
@@ -26,13 +31,18 @@ public class SubmapVisualizer : PointCloudVisualizer2
         Destroy(temp);
     }
 
-    public void UpdateMap(PointCloud.PointCloud<PointXYZIntensity> c)
+    /// <summary>
+    /// Display a new point cloud (replacing the old one).
+    /// </summary>
+    /// <param name="c"></param>
+    public void UpdateMap(PointCloud<PointXYZIntensity> c)
     {
         if (particles == null)
         {
             pending_cloud = c;
             return;
         }
+        // Ensure that particle array has enough capacity.
         if (particles.Length < c.Size)
         {
             particles = new ParticleSystem.Particle[c.Size];
@@ -41,6 +51,8 @@ public class SubmapVisualizer : PointCloudVisualizer2
                 particles[i] = new ParticleSystem.Particle();
             }
         }
+
+        // Copy over the positions of the points.
         int ind = 0;
         foreach (PointXYZIntensity p in c.Points)
         {

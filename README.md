@@ -1,11 +1,15 @@
 # Radiation Visualization
 ## How to Clone This Repository
+Ensure that you have an SSH key associated with your account as you will need that to clone submodules.
 
 In the terminal, run:
 
-`git clone --recurse-submodules -j8 https://github.com/jeshlee121/ISAACS-RadiationVisualization`
+`git clone --recurse-submodules -j8 https://github.com/immersive-command-system/RadiationVisualization`
+
+If you forget to clone recursively, you can run `git submodule update --init --recursive`
 
 **In the case of** **“**[**Error: Permission denied (publickey)**](https://help.github.com/en/articles/error-permission-denied-publickey)**”**
+Please note that the Error is not specially highlighted so you may need to look closely.
 
 **For Windows:** 
 
@@ -19,6 +23,21 @@ Use the command `ssh-keygen -t rsa` to generate the keys and `ssh-add /path/to/m
 Now follow this [link](https://help.github.com/en/articles/adding-a-new-ssh-key-to-your-github-account) to add a new SSH key to your GitHub account. 
 Make sure to delete the old repo you had downloaded, and try cloning again.
 
+## Using ROSBridge
+
+Install [ROS](http://wiki.ros.org/melodic/Installation/Debian) and [ROSBridge-suite](http://wiki.ros.org/rosbridge_suite/Tutorials/RunningRosbridge).
+
+In the terminal, run:
+`roscore`
+
+In another terminal, run:
+`roslaunch rosbridge_server rosbridge_websocket.launch`
+
+You can now access a json stream of data from port 9090 through the websocket interface.
+
+Sample LAMP bag can be found [here](https://drive.google.com/file/d/1Vb4Heq2FtjIED0b3o-n2PA6WCDHOH-i3/view).
+
+Note that ROSBridge only has a linux install at the moment. Please use a Linux VM or use Windows Subsystem for Linux.
 
 ## How to Use the Python Scripts in ‘LBL’ Folder (HD5 Data Over Network)
 
@@ -40,6 +59,8 @@ For both of the PointCloud and Drone object, check the "**Flip YZ**" on the scri
 
 For the DataServer object, go to the "**Listen Ports**" and change the size to 3 and for each element, choose an arbitrary PORT number (e.g. 50007, 50008, 50009).
 
+Make sure you click the check box in the `Inspector` for each of the above GameObjects. 
+
 **Python scripts**
 Change the HOST and PORT accordingly in the scripts:
 
@@ -47,15 +68,24 @@ Change the HOST and PORT accordingly in the scripts:
 - **port_number**: Make sure the PORT numbers are the same as the ones that you wrote on the **DataServer** object.
 
 Press play on Unity, and then run the scripts in the folder ‘LBL’ on a command prompt with the commands,
-  
 
-    python GenerateRadiation.py --HOST <host_address> --PORT <port_number>
-    python GeneratePosData.py --HOST <host_address> --PORT <port_number>
-    python GenerateCloud.py --HOST <host_address> --PORT <port_number>
+    python GeneratePosData.py --HOST <host_address> --PORT <port_number ELEMENT0>
+    python GenerateRadiation.py --HOST <host_address> --PORT <port_number ELEMENT2>
+    python GenerateCloud.py --HOST <host_address> --PORT <port_number ELEMENT1>
     
+**RUN GenerateRadiation.py before GenerateCloud.py**
 
-  
-If the flags for HOST and PORT are not provided, the default values for HOST and PORT are `LOCALHOST` and `50007`/`50008`/`50009` respectively. 
-  
+If the flags for HOST and PORT are not provided, the default values for HOST and PORT are `LOCALHOST` and `50007`/`50008`/`50009` respectively. If you are using these defaults, you can alternatively run `make generate -j2` to run Position and Radiaiton simultaneously then Cloud after Position is complete.
+
 Go back to Unity, and you’ll see the visualizations start.
+
+## Resources
+
+On Google Drive inside `ISAACS/Spring 2019/Radiation Visulization`. https://drive.google.com/open?id=18_KtS9UtNDZLGDmeRgFtmxaSC26-FbCR
+
+- `/camp_roberts`
+  - `/roberts_recon_in_bag` or `data.bag` contains the ros bag and the `h5` data. We will be extracting drone position, radiation data from `RunData.h5`. (Note this `RunData.h5` file is included in our git repo. No need to download and replace.)
+  - `/data.bag_points.ply` point cloud data
+
+- `/Dataset Information google doc` contains the information for the data inside `RunData.h5`. (Need to understand and read carefully.)
 

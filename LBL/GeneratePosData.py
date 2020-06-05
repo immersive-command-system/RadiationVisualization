@@ -54,7 +54,10 @@ if __name__ == "__main__":
             time.sleep(0.1)
         # sending message in format [label]:[timestamp]:data\n
         xyz = "Drone:" + str(pos_data[i][0]) + ":" + str(pos_data[i][1]) + "," + str(pos_data[i][2]) + "," + str(pos_data[i][3]) + "\n"
-        print("Num: "  + str(i) + ": "+ xyz)
+        # print("Num: "  + str(i) + ": "+ xyz)
         s.send(xyz.encode())
+    xyz = "Drone:12345:End of PosData\n"
+    print(xyz)
+    s.send(xyz.encode())
     s.close()
     f.close()
